@@ -6,25 +6,25 @@ namespace Craeckersoft.AdvancedPipeline.Internal
     {
         public DelegateComponent(ComponentDelegate<TRequest, TNextRequest, TNextResponse, TResponse> componentDelegate)
         {
-            ComponentDelegate = componentDelegate ?? throw new ArgumentNullException(nameof(componentDelegate));
+            Delegate = componentDelegate ?? throw new ArgumentNullException(nameof(componentDelegate));
         }
 
-        public ComponentDelegate<TRequest, TNextRequest, TNextResponse, TResponse> ComponentDelegate { get; }
+        public ComponentDelegate<TRequest, TNextRequest, TNextResponse, TResponse> Delegate { get; }
 
         public IComponentInvoker<TRequest, TResponse> CreateInvoker(IComponentInvoker<TNextRequest, TNextResponse> next)
         {
             if (next == null)
                 throw new ArgumentNullException(nameof(next));
-            return new Invoker(ComponentDelegate(next.Invoke) ?? throw new InvalidOperationException());
+            return new Invoker(this, next);
         }
 
         private class Invoker : IComponentInvoker<TRequest, TResponse>
         {
             private readonly ComponentInvokerDelegate<TRequest, TResponse> componentInvoker;
 
-            public Invoker(ComponentInvokerDelegate<TRequest, TResponse> componentInvoker)
+            public Invoker(DelegateComponent<TRequest, TNextRequest, TNextResponse, TResponse> delegateComponent, IComponentInvoker<TNextRequest, TNextResponse> next)
             {
-                this.componentInvoker = componentInvoker;
+                componentInvoker = delegateComponent.Delegate(next.Invoke) ?? throw new InvalidOperationException();
             }
 
             public TResponse Invoke(TRequest request, IPipelineInvocationContext invocationContext)

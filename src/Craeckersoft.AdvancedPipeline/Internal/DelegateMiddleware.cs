@@ -6,14 +6,16 @@ namespace Craeckersoft.AdvancedPipeline.Internal
     {
         public DelegateMiddleware(MiddlewareDelegate<TRequest, TNextRequest, TNextResponse, TResponse> middlewareDelegate)
         {
-            MiddlewareDelegate = middlewareDelegate ?? throw new ArgumentNullException(nameof(middlewareDelegate));
+            Delegate = middlewareDelegate ?? throw new ArgumentNullException(nameof(middlewareDelegate));
         }
 
-        public MiddlewareDelegate<TRequest, TNextRequest, TNextResponse, TResponse> MiddlewareDelegate { get; }
+        public MiddlewareDelegate<TRequest, TNextRequest, TNextResponse, TResponse> Delegate { get; }
 
         public TResponse Invoke(TRequest request, IPipelineInvocationContext invocationContext, IComponentInvoker<TNextRequest, TNextResponse> next)
         {
-            return MiddlewareDelegate(request, invocationContext, next.Invoke);
+            if (next == null)
+                throw new ArgumentNullException(nameof(next));
+            return Delegate(request, invocationContext, next.Invoke);
         }
     }
 }

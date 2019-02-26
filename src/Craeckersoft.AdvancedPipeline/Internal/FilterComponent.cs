@@ -15,23 +15,23 @@ namespace Craeckersoft.AdvancedPipeline.Internal
         {
             if (next == null)
                 throw new ArgumentNullException(nameof(next));
-            return new Invoker(Filter, next);
+            return new Invoker(this, next);
         }
 
         private class Invoker : IComponentInvoker<TRequest, TResponse>
         {
-            private readonly IFilter<TRequest, TFilterResponse> filter;
+            private readonly FilterComponent<TRequest, TFilterResponse, TResponse> filterComponent;
             private readonly IComponentInvoker<TFilterResponse, TResponse> next;
 
-            public Invoker(IFilter<TRequest, TFilterResponse> filter, IComponentInvoker<TFilterResponse, TResponse> next)
+            public Invoker(FilterComponent<TRequest, TFilterResponse, TResponse> filterComponent, IComponentInvoker<TFilterResponse, TResponse> next)
             {
-                this.filter = filter;
+                this.filterComponent = filterComponent;
                 this.next = next;
             }
 
             public TResponse Invoke(TRequest request, IPipelineInvocationContext invocationContext)
             {
-                return next.Invoke(filter.Invoke(request, invocationContext), invocationContext);
+                return next.Invoke(filterComponent.Filter.Invoke(request, invocationContext), invocationContext);
             }
         }
     }

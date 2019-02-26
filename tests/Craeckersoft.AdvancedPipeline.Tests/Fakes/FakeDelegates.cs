@@ -9,5 +9,7 @@ namespace Craeckersoft.AdvancedPipeline.Tests.Fakes
         public static MiddlewareDelegate<string, string, string, string> Middleware { get; } = (request, invocationContext, next) => request != null ? new string(request.Reverse().ToArray()) : next.Invoke(request, invocationContext);
 
         public static ComponentDelegate<string, string, string, string> Component { get; } = next => (request, invocationContext) => request != null ? new string(request.Reverse().ToArray()) : next.Invoke(request, invocationContext);
+
+        public static ComponentDelegate<string, string, string, string> ComponentNull { get; } = next => null;
     }
 }

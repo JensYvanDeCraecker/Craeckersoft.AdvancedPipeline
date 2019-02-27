@@ -15,22 +15,7 @@ namespace Craeckersoft.AdvancedPipeline.Internal
         {
             if (next == null)
                 throw new ArgumentNullException(nameof(next));
-            return new Invoker(this, next);
-        }
-
-        private class Invoker : IComponentInvoker<TRequest, TResponse>
-        {
-            private readonly ComponentInvokerDelegate<TRequest, TResponse> componentInvoker;
-
-            public Invoker(DelegateComponent<TRequest, TNextRequest, TNextResponse, TResponse> delegateComponent, IComponentInvoker<TNextRequest, TNextResponse> next)
-            {
-                componentInvoker = delegateComponent.Delegate(next.Invoke) ?? throw new InvalidOperationException();
-            }
-
-            public TResponse Invoke(TRequest request, IPipelineInvocationContext invocationContext)
-            {
-                return componentInvoker(request, invocationContext);
-            }
+            return ComponentInvoker.FromDelegate(Delegate(next.Invoke) ?? throw new InvalidOperationException());
         }
     }
 }

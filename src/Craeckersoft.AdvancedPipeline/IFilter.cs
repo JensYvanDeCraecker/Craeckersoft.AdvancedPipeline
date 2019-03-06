@@ -1,7 +1,9 @@
+using System.Threading.Tasks;
+
 namespace Craeckersoft.AdvancedPipeline
 {
-    public interface IFilter<in TRequest, out TResponse>
+    public interface IFilter<in TRequest, TResponse>
     {
-        TResponse Invoke(TRequest request, IPipelineInvocationContext invocationContext);
+        Task<TResponse> InvokeAsync(TRequest request, IInvocationContext invocationContext);
     }
 }

@@ -1,7 +1,10 @@
+using System.Threading.Tasks;
+using Craeckersoft.AdvancedPipeline.Components;
+
 namespace Craeckersoft.AdvancedPipeline
 {
-    public interface IMiddleware<in TRequest, out TNextRequest, in TNextResponse, out TResponse>
+    public interface IMiddleware<in TRequest, out TNextRequest, TNextResponse, TResponse>
     {
-        TResponse Invoke(TRequest request, IPipelineInvocationContext invocationContext, IComponentInvoker<TNextRequest, TNextResponse> next);
+        Task<TResponse> InvokeAsync(TRequest request, IInvocationContext invocationContext, IComponentInvoker<TNextRequest, TNextResponse> next);
     }
 }

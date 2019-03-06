@@ -1,4 +1,6 @@
 using System;
+using System.Threading.Tasks;
+using Craeckersoft.AdvancedPipeline.Components;
 
 namespace Craeckersoft.AdvancedPipeline.Internal
 {
@@ -11,11 +13,9 @@ namespace Craeckersoft.AdvancedPipeline.Internal
 
         public MiddlewareDelegate<TRequest, TNextRequest, TNextResponse, TResponse> Delegate { get; }
 
-        public TResponse Invoke(TRequest request, IPipelineInvocationContext invocationContext, IComponentInvoker<TNextRequest, TNextResponse> next)
+        public Task<TResponse> InvokeAsync(TRequest request, IInvocationContext invocationContext, IComponentInvoker<TNextRequest, TNextResponse> next)
         {
-            if (next == null)
-                throw new ArgumentNullException(nameof(next));
-            return Delegate(request, invocationContext, next.Invoke);
+            return Delegate(request, invocationContext, next);
         }
     }
 }

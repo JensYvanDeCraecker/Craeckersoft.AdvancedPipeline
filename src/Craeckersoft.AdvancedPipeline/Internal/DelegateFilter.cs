@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 
 namespace Craeckersoft.AdvancedPipeline.Internal
 {
@@ -11,7 +12,7 @@ namespace Craeckersoft.AdvancedPipeline.Internal
 
         public FilterDelegate<TRequest, TResponse> Delegate { get; }
 
-        public TResponse Invoke(TRequest request, IPipelineInvocationContext invocationContext)
+        public Task<TResponse> InvokeAsync(TRequest request, IInvocationContext invocationContext)
         {
             return Delegate(request, invocationContext);
         }

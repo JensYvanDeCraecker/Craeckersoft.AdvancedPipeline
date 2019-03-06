@@ -1,4 +1,6 @@
+using System.Threading.Tasks;
+
 namespace Craeckersoft.AdvancedPipeline
 {
-    public delegate TResponse FilterDelegate<in TRequest, out TResponse>(TRequest request, IPipelineInvocationContext invocationContext);
+    public delegate Task<TResponse> FilterDelegate<in TRequest, TResponse>(TRequest request, IInvocationContext invocationContext);
 }

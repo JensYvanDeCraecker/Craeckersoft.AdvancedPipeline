@@ -1,9 +1,10 @@
 using System;
 using System.Threading.Tasks;
+using Craeckersoft.AdvancedPipeline.Utilities;
 
 namespace Craeckersoft.AdvancedPipeline.Internal
 {
-    public sealed class DelegateFilter<TRequest, TResponse> : IFilter<TRequest, TResponse>
+    public sealed class DelegateFilter<TRequest, TResponse> : IFilter<TRequest, TResponse>, IWrapper<FilterDelegate<TRequest, TResponse>>
     {
         public DelegateFilter(FilterDelegate<TRequest, TResponse> filterDelegate)
         {
@@ -15,6 +16,14 @@ namespace Craeckersoft.AdvancedPipeline.Internal
         public Task<TResponse> InvokeAsync(TRequest request, IInvocationContext invocationContext)
         {
             return Delegate(request, invocationContext);
+        }
+
+        FilterDelegate<TRequest, TResponse> IWrapper<FilterDelegate<TRequest, TResponse>>.Item
+        {
+            get
+            {
+                return Delegate;
+            }
         }
     }
 }

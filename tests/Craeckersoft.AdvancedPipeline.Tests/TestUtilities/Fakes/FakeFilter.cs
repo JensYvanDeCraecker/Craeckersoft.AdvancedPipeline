@@ -1,24 +1,24 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Craeckersoft.AdvancedPipeline.Tests.Utilities.Fakes
+namespace Craeckersoft.AdvancedPipeline.Tests.TestUtilities.Fakes
 {
     public class FakeFilter : IFilter<object, object>
     {
-        private readonly ISet<TestType> tests;
+        private readonly ISet<TestItem> tests;
 
-        public FakeFilter(ISet<TestType> tests)
+        public FakeFilter(ISet<TestItem> tests)
         {
             this.tests = tests;
         }
 
         public Task<object> InvokeAsync(object request, IInvocationContext invocationContext)
         {
-            tests?.Add(TestType.CurrentInvoker);
+            tests?.Add(TestItem.CurrentInvoker);
             if (request != null)
-                tests?.Add(TestType.Request);
+                tests?.Add(TestItem.Request);
             if (invocationContext != null)
-                tests?.Add(TestType.InvocationContext);
+                tests?.Add(TestItem.InvocationContext);
             return Task.FromResult(request);
         }
     }

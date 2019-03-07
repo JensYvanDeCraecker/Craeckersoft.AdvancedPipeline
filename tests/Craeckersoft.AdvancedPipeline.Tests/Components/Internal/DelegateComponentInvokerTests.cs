@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Craeckersoft.AdvancedPipeline.Components;
 using Craeckersoft.AdvancedPipeline.Components.Internal;
-using Craeckersoft.AdvancedPipeline.Tests.Utilities;
-using Craeckersoft.AdvancedPipeline.Tests.Utilities.Fakes;
+using Craeckersoft.AdvancedPipeline.Tests.TestUtilities;
+using Craeckersoft.AdvancedPipeline.Tests.TestUtilities.Fakes;
+using Craeckersoft.AdvancedPipeline.Utilities;
 using FluentAssertions;
 using Xunit;
 
@@ -27,15 +28,15 @@ namespace Craeckersoft.AdvancedPipeline.Tests.Components.Internal
         {
             // Arrange
             object expected = new object();
-            ISet<TestType> tests = new HashSet<TestType>();
-            IComponentInvoker<object, object> componentInvoker = new DelegateComponentInvoker<object, object>(FakeDelegates.ComponentInvoker(tests));
+            ISet<TestItem> tests = new HashSet<TestItem>();
+            DelegateComponentInvoker<object, object> componentInvoker = new DelegateComponentInvoker<object, object>(FakeDelegates.ComponentInvoker(tests));
 
             // Act
             object actual = await componentInvoker.InvokeAsync(expected, new FakeInvocationContext());
 
             // Assert
             actual.Should().BeSameAs(expected);
-            tests.Remove(TestType.NextInvokerInvoked).Should().BeTrue();
+            tests.Remove(TestItem.NextInvokerInvoked).Should().BeTrue();
             tests.Should().BeEmpty();
         }
 
@@ -51,6 +52,19 @@ namespace Craeckersoft.AdvancedPipeline.Tests.Components.Internal
 
             // Assert
             actualComponentInvokerDelegate.Should().BeSameAs(expectedComponentInvokerDelegate);
+        }
+
+        [Fact]
+        public void Property_Item_IsSameAsDelegate()
+        {
+            // Arrange
+            DelegateComponentInvoker<object, object> componentInvoker = new DelegateComponentInvoker<object, object>(FakeDelegates.ComponentInvoker(null));
+
+            // Act
+            ComponentInvokerDelegate<object, object> actual = ((IWrapper<ComponentInvokerDelegate<object, object>>)componentInvoker).Item;
+
+            // Assert
+            actual.Should().BeSameAs(componentInvoker.Delegate);
         }
     }
 }

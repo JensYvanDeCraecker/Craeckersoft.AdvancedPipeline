@@ -1,9 +1,10 @@
 using System;
 using System.Threading.Tasks;
+using Craeckersoft.AdvancedPipeline.Utilities;
 
 namespace Craeckersoft.AdvancedPipeline.Components.Internal
 {
-    public sealed class FilterComponent<TRequest, TFilterResponse, TResponse> : IComponent<TRequest, TFilterResponse, TResponse, TResponse>
+    public sealed class FilterComponent<TRequest, TFilterResponse, TResponse> : IComponent<TRequest, TFilterResponse, TResponse, TResponse>, IWrapper<IFilter<TRequest, TFilterResponse>>
     {
         public FilterComponent(IFilter<TRequest, TFilterResponse> filter)
         {
@@ -17,6 +18,14 @@ namespace Craeckersoft.AdvancedPipeline.Components.Internal
             if (next == null)
                 throw new ArgumentNullException(nameof(next));
             return new Invoker(this, next);
+        }
+
+        IFilter<TRequest, TFilterResponse> IWrapper<IFilter<TRequest, TFilterResponse>>.Item
+        {
+            get
+            {
+                return Filter;
+            }
         }
 
         private class Invoker : IComponentInvoker<TRequest, TResponse>

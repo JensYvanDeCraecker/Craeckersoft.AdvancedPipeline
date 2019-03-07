@@ -1,6 +1,6 @@
-namespace Craeckersoft.AdvancedPipeline.Tests.Utilities
+namespace Craeckersoft.AdvancedPipeline.Tests.TestUtilities
 {
-    public enum TestType
+    public enum TestItem
     {
         CurrentInvoker,
         InvocationContext,

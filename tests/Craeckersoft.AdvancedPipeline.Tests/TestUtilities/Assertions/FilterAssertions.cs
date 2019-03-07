@@ -2,7 +2,7 @@ using Craeckersoft.AdvancedPipeline.Internal;
 using FluentAssertions;
 using FluentAssertions.Primitives;
 
-namespace Craeckersoft.AdvancedPipeline.Tests.Utilities.Assertions
+namespace Craeckersoft.AdvancedPipeline.Tests.TestUtilities.Assertions
 {
     public class FilterAssertions<TRequest, TResponse> : ReferenceTypeAssertions<IFilter<TRequest, TResponse>, FilterAssertions<TRequest, TResponse>>
     {

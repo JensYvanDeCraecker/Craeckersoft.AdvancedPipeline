@@ -1,8 +1,9 @@
 using System;
+using Craeckersoft.AdvancedPipeline.Utilities;
 
 namespace Craeckersoft.AdvancedPipeline.Components.Internal
 {
-    public sealed class DelegateComponent<TRequest, TNextRequest, TNextResponse, TResponse> : IComponent<TRequest, TNextRequest, TNextResponse, TResponse>
+    public sealed class DelegateComponent<TRequest, TNextRequest, TNextResponse, TResponse> : IComponent<TRequest, TNextRequest, TNextResponse, TResponse>, IWrapper<ComponentDelegate<TRequest, TNextRequest, TNextResponse, TResponse>>
     {
         public DelegateComponent(ComponentDelegate<TRequest, TNextRequest, TNextResponse, TResponse> componentDelegate)
         {
@@ -14,6 +15,14 @@ namespace Craeckersoft.AdvancedPipeline.Components.Internal
         public IComponentInvoker<TRequest, TResponse> CreateInvoker(IComponentInvoker<TNextRequest, TNextResponse> next)
         {
             return ComponentInvoker.FromDelegate(Delegate(next) ?? throw new InvalidOperationException());
+        }
+
+        ComponentDelegate<TRequest, TNextRequest, TNextResponse, TResponse> IWrapper<ComponentDelegate<TRequest, TNextRequest, TNextResponse, TResponse>>.Item
+        {
+            get
+            {
+                return Delegate;
+            }
         }
     }
 }

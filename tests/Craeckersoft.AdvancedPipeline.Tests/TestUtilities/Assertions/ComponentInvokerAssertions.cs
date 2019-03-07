@@ -3,7 +3,7 @@ using Craeckersoft.AdvancedPipeline.Components.Internal;
 using FluentAssertions;
 using FluentAssertions.Primitives;
 
-namespace Craeckersoft.AdvancedPipeline.Tests.Utilities.Assertions
+namespace Craeckersoft.AdvancedPipeline.Tests.TestUtilities.Assertions
 {
     public class ComponentInvokerAssertions<TRequest, TResponse> : ReferenceTypeAssertions<IComponentInvoker<TRequest, TResponse>, ComponentInvokerAssertions<TRequest, TResponse>>
     {

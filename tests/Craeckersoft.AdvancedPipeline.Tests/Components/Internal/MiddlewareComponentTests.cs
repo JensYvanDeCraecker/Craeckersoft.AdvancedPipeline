@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Craeckersoft.AdvancedPipeline.Components;
 using Craeckersoft.AdvancedPipeline.Components.Internal;
-using Craeckersoft.AdvancedPipeline.Tests.Utilities;
-using Craeckersoft.AdvancedPipeline.Tests.Utilities.Assertions;
-using Craeckersoft.AdvancedPipeline.Tests.Utilities.Fakes;
+using Craeckersoft.AdvancedPipeline.Tests.TestUtilities;
+using Craeckersoft.AdvancedPipeline.Tests.TestUtilities.Assertions;
+using Craeckersoft.AdvancedPipeline.Tests.TestUtilities.Fakes;
+using Craeckersoft.AdvancedPipeline.Utilities;
 using FluentAssertions;
 using Xunit;
 
@@ -20,7 +21,7 @@ namespace Craeckersoft.AdvancedPipeline.Tests.Components.Internal
             {
                 // Arrange
                 object expected = new object();
-                ISet<TestType> tests = new HashSet<TestType>();
+                ISet<TestItem> tests = new HashSet<TestItem>();
                 IComponentInvoker<object, object> componentInvoker = new MiddlewareComponent<object, object, object, object>(new FakeMiddleware(tests)).CreateInvoker(new FakeComponentInvoker(tests));
 
                 // Act
@@ -28,11 +29,11 @@ namespace Craeckersoft.AdvancedPipeline.Tests.Components.Internal
 
                 // Assert
                 actual.Should().BeSameAs(expected);
-                tests.Remove(TestType.CurrentInvoker).Should().BeTrue();
-                tests.Remove(TestType.Request).Should().BeTrue();
-                tests.Remove(TestType.InvocationContext).Should().BeTrue();
-                tests.Remove(TestType.NextInvoker).Should().BeTrue();
-                tests.Remove(TestType.NextInvokerInvoked).Should().BeTrue();
+                tests.Remove(TestItem.CurrentInvoker).Should().BeTrue();
+                tests.Remove(TestItem.Request).Should().BeTrue();
+                tests.Remove(TestItem.InvocationContext).Should().BeTrue();
+                tests.Remove(TestItem.NextInvoker).Should().BeTrue();
+                tests.Remove(TestItem.NextInvokerInvoked).Should().BeTrue();
                 tests.Should().BeEmpty();
             }
         }
@@ -68,6 +69,19 @@ namespace Craeckersoft.AdvancedPipeline.Tests.Components.Internal
 
             // Assert
             invoker.Should().NotBeNull();
+        }
+
+        [Fact]
+        public void Property_Item_IsSameAsMiddleware()
+        {
+            // Arrange
+            MiddlewareComponent<object, object, object, object> component = new MiddlewareComponent<object, object, object, object>(new FakeMiddleware(null));
+
+            // Act
+            IMiddleware<object, object, object, object> actual = ((IWrapper<IMiddleware<object, object, object, object>>)component).Item;
+
+            // Assert
+            actual.Should().BeSameAs(component.Middleware);
         }
 
         [Fact]

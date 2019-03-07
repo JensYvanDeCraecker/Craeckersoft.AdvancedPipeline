@@ -1,6 +1,6 @@
 using Craeckersoft.AdvancedPipeline.Components;
 
-namespace Craeckersoft.AdvancedPipeline.Tests.Utilities.Assertions
+namespace Craeckersoft.AdvancedPipeline.Tests.TestUtilities.Assertions
 {
     public static class ComponentInvokerExtensions
     {

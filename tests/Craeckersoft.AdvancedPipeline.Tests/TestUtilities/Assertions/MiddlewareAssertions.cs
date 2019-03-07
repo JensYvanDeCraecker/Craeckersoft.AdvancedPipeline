@@ -2,7 +2,7 @@ using Craeckersoft.AdvancedPipeline.Internal;
 using FluentAssertions;
 using FluentAssertions.Primitives;
 
-namespace Craeckersoft.AdvancedPipeline.Tests.Utilities.Assertions
+namespace Craeckersoft.AdvancedPipeline.Tests.TestUtilities.Assertions
 {
     public class MiddlewareAssertions<TRequest, TNextRequest, TNextResponse, TResponse> : ReferenceTypeAssertions<IMiddleware<TRequest, TNextRequest, TNextResponse, TResponse>, MiddlewareAssertions<TRequest, TNextRequest, TNextResponse, TResponse>>
     {

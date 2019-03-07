@@ -2,8 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Craeckersoft.AdvancedPipeline.Internal;
-using Craeckersoft.AdvancedPipeline.Tests.Utilities;
-using Craeckersoft.AdvancedPipeline.Tests.Utilities.Fakes;
+using Craeckersoft.AdvancedPipeline.Tests.TestUtilities;
+using Craeckersoft.AdvancedPipeline.Tests.TestUtilities.Fakes;
+using Craeckersoft.AdvancedPipeline.Utilities;
 using FluentAssertions;
 using Xunit;
 
@@ -26,7 +27,7 @@ namespace Craeckersoft.AdvancedPipeline.Tests.Internal
         {
             // Arrange
             object expected = new object();
-            ISet<TestType> tests = new HashSet<TestType>();
+            ISet<TestItem> tests = new HashSet<TestItem>();
             IFilter<object, object> filter = new DelegateFilter<object, object>(FakeDelegates.Filter(tests));
 
             // Act
@@ -34,9 +35,9 @@ namespace Craeckersoft.AdvancedPipeline.Tests.Internal
 
             // Assert
             actual.Should().BeSameAs(expected);
-            tests.Remove(TestType.CurrentInvoker).Should().BeTrue();
-            tests.Remove(TestType.Request).Should().BeTrue();
-            tests.Remove(TestType.InvocationContext).Should().BeTrue();
+            tests.Remove(TestItem.CurrentInvoker).Should().BeTrue();
+            tests.Remove(TestItem.Request).Should().BeTrue();
+            tests.Remove(TestItem.InvocationContext).Should().BeTrue();
             tests.Should().BeEmpty();
         }
 
@@ -52,6 +53,19 @@ namespace Craeckersoft.AdvancedPipeline.Tests.Internal
 
             // Assert
             actualFilterDelegate.Should().BeSameAs(expectedFilterDelegate);
+        }
+
+        [Fact]
+        public void Property_Item_IsSameAsDelegate()
+        {
+            // Arrange
+            DelegateFilter<object, object> delegateFilter = new DelegateFilter<object, object>(FakeDelegates.Filter(null));
+
+            // Act
+            FilterDelegate<object, object> actual = ((IWrapper<FilterDelegate<object, object>>)delegateFilter).Item;
+
+            // Assert
+            actual.Should().BeSameAs(delegateFilter.Delegate);
         }
     }
 }

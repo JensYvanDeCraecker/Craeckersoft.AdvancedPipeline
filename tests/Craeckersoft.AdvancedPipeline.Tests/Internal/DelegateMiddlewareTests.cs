@@ -2,8 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Craeckersoft.AdvancedPipeline.Internal;
-using Craeckersoft.AdvancedPipeline.Tests.Utilities;
-using Craeckersoft.AdvancedPipeline.Tests.Utilities.Fakes;
+using Craeckersoft.AdvancedPipeline.Tests.TestUtilities;
+using Craeckersoft.AdvancedPipeline.Tests.TestUtilities.Fakes;
+using Craeckersoft.AdvancedPipeline.Utilities;
 using FluentAssertions;
 using Xunit;
 
@@ -26,7 +27,7 @@ namespace Craeckersoft.AdvancedPipeline.Tests.Internal
         {
             // Arrange
             object expected = new object();
-            ISet<TestType> tests = new HashSet<TestType>();
+            ISet<TestItem> tests = new HashSet<TestItem>();
             DelegateMiddleware<object, object, object, object> middleware = new DelegateMiddleware<object, object, object, object>(FakeDelegates.Middleware(tests));
 
             // Act
@@ -34,11 +35,11 @@ namespace Craeckersoft.AdvancedPipeline.Tests.Internal
 
             // Assert
             actual.Should().BeSameAs(expected);
-            tests.Remove(TestType.CurrentInvoker).Should().BeTrue();
-            tests.Remove(TestType.Request).Should().BeTrue();
-            tests.Remove(TestType.InvocationContext).Should().BeTrue();
-            tests.Remove(TestType.NextInvoker).Should().BeTrue();
-            tests.Remove(TestType.NextInvokerInvoked).Should().BeTrue();
+            tests.Remove(TestItem.CurrentInvoker).Should().BeTrue();
+            tests.Remove(TestItem.Request).Should().BeTrue();
+            tests.Remove(TestItem.InvocationContext).Should().BeTrue();
+            tests.Remove(TestItem.NextInvoker).Should().BeTrue();
+            tests.Remove(TestItem.NextInvokerInvoked).Should().BeTrue();
             tests.Should().BeEmpty();
         }
 
@@ -54,6 +55,19 @@ namespace Craeckersoft.AdvancedPipeline.Tests.Internal
 
             // Assert
             actualMiddlewareDelegate.Should().Be(expectedMiddlewareDelegate);
+        }
+
+        [Fact]
+        public void Property_Item_IsSameAsDelegate()
+        {
+            // Arrange
+            DelegateMiddleware<object, object, object, object> delegateMiddleware = new DelegateMiddleware<object, object, object, object>(FakeDelegates.Middleware(null));
+
+            // Act
+            MiddlewareDelegate<object, object, object, object> actual = ((IWrapper<MiddlewareDelegate<object, object, object, object>>)delegateMiddleware).Item;
+
+            // Assert
+            actual.Should().BeSameAs(delegateMiddleware.Delegate);
         }
     }
 }

@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace Craeckersoft.AdvancedPipeline.Tests.Utilities.Fakes
+namespace Craeckersoft.AdvancedPipeline.Tests.TestUtilities.Fakes
 {
     public class FakeInvocationContext : IInvocationContext
     {

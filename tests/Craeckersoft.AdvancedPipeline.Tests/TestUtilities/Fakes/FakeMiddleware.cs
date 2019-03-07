@@ -2,27 +2,27 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Craeckersoft.AdvancedPipeline.Components;
 
-namespace Craeckersoft.AdvancedPipeline.Tests.Utilities.Fakes
+namespace Craeckersoft.AdvancedPipeline.Tests.TestUtilities.Fakes
 {
     public class FakeMiddleware : IMiddleware<object, object, object, object>
 
     {
-        private readonly ISet<TestType> tests;
+        private readonly ISet<TestItem> tests;
 
-        public FakeMiddleware(ISet<TestType> tests)
+        public FakeMiddleware(ISet<TestItem> tests)
         {
             this.tests = tests;
         }
 
         public Task<object> InvokeAsync(object request, IInvocationContext invocationContext, IComponentInvoker<object, object> next)
         {
-            tests?.Add(TestType.CurrentInvoker);
+            tests?.Add(TestItem.CurrentInvoker);
             if (request != null)
-                tests?.Add(TestType.Request);
+                tests?.Add(TestItem.Request);
             if (invocationContext != null)
-                tests?.Add(TestType.InvocationContext);
+                tests?.Add(TestItem.InvocationContext);
             if (next != null)
-                tests?.Add(TestType.NextInvoker);
+                tests?.Add(TestItem.NextInvoker);
             return next?.InvokeAsync(request, invocationContext);
         }
     }

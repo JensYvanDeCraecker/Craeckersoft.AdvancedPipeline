@@ -1,9 +1,10 @@
 using System;
 using System.Threading.Tasks;
+using Craeckersoft.AdvancedPipeline.Utilities;
 
 namespace Craeckersoft.AdvancedPipeline.Components.Internal
 {
-    public sealed class MiddlewareComponent<TRequest, TNextRequest, TNextResponse, TResponse> : IComponent<TRequest, TNextRequest, TNextResponse, TResponse>
+    public sealed class MiddlewareComponent<TRequest, TNextRequest, TNextResponse, TResponse> : IComponent<TRequest, TNextRequest, TNextResponse, TResponse>, IWrapper<IMiddleware<TRequest, TNextRequest, TNextResponse, TResponse>>
     {
         public MiddlewareComponent(IMiddleware<TRequest, TNextRequest, TNextResponse, TResponse> middleware)
         {
@@ -17,6 +18,14 @@ namespace Craeckersoft.AdvancedPipeline.Components.Internal
             if (next == null)
                 throw new ArgumentNullException(nameof(next));
             return new Invoker(this, next);
+        }
+
+        IMiddleware<TRequest, TNextRequest, TNextResponse, TResponse> IWrapper<IMiddleware<TRequest, TNextRequest, TNextResponse, TResponse>>.Item
+        {
+            get
+            {
+                return Middleware;
+            }
         }
 
         private class Invoker : IComponentInvoker<TRequest, TResponse>

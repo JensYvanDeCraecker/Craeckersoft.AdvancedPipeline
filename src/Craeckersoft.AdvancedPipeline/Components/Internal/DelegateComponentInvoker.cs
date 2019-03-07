@@ -1,9 +1,10 @@
 using System;
 using System.Threading.Tasks;
+using Craeckersoft.AdvancedPipeline.Utilities;
 
 namespace Craeckersoft.AdvancedPipeline.Components.Internal
 {
-    public class DelegateComponentInvoker<TRequest, TResponse> : IComponentInvoker<TRequest, TResponse>
+    public class DelegateComponentInvoker<TRequest, TResponse> : IComponentInvoker<TRequest, TResponse>, IWrapper<ComponentInvokerDelegate<TRequest, TResponse>>
     {
         public DelegateComponentInvoker(ComponentInvokerDelegate<TRequest, TResponse> componentInvokerDelegate)
         {
@@ -15,6 +16,14 @@ namespace Craeckersoft.AdvancedPipeline.Components.Internal
         public Task<TResponse> InvokeAsync(TRequest request, IInvocationContext invocationContext)
         {
             return Delegate(request, invocationContext);
+        }
+
+        ComponentInvokerDelegate<TRequest, TResponse> IWrapper<ComponentInvokerDelegate<TRequest, TResponse>>.Item
+        {
+            get
+            {
+                return Delegate;
+            }
         }
     }
 }

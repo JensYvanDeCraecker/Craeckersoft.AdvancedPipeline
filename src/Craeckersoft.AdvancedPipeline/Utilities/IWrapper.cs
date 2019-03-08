@@ -1,7 +1,12 @@
 namespace Craeckersoft.AdvancedPipeline.Utilities
 {
-    public interface IWrapper<out T>
+    public interface IWrapper
     {
-        T Item { get; }
+        object Item { get; }
+    }
+
+    public interface IWrapper<out T> : IWrapper
+    {
+        new T Item { get; }
     }
 }

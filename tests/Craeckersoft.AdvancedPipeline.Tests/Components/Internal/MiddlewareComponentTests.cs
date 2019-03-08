@@ -78,10 +78,12 @@ namespace Craeckersoft.AdvancedPipeline.Tests.Components.Internal
             MiddlewareComponent<object, object, object, object> component = new MiddlewareComponent<object, object, object, object>(new FakeMiddleware(null));
 
             // Act
-            IMiddleware<object, object, object, object> actual = ((IWrapper<IMiddleware<object, object, object, object>>)component).Item;
+            IMiddleware<object, object, object, object> actual1 = ((IWrapper<IMiddleware<object, object, object, object>>)component).Item;
+            object actual2 = ((IWrapper)component).Item;
 
             // Assert
-            actual.Should().BeSameAs(component.Middleware);
+            actual1.Should().BeSameAs(component.Middleware);
+            actual2.Should().BeSameAs(component.Middleware);
         }
 
         [Fact]

@@ -28,6 +28,14 @@ namespace Craeckersoft.AdvancedPipeline.Components.Internal
             }
         }
 
+        object IWrapper.Item
+        {
+            get
+            {
+                return Filter;
+            }
+        }
+
         private class Invoker : IComponentInvoker<TRequest, TResponse>
         {
             private readonly FilterComponent<TRequest, TFilterResponse, TResponse> filterComponent;

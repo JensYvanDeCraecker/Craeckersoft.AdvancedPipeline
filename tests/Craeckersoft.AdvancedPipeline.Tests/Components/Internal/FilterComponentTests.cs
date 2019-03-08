@@ -92,10 +92,12 @@ namespace Craeckersoft.AdvancedPipeline.Tests.Components.Internal
             FilterComponent<object, object, object> component = new FilterComponent<object, object, object>(new FakeFilter(null));
 
             // Act
-            IFilter<object, object> actual = ((IWrapper<IFilter<object, object>>)component).Item;
+            IFilter<object, object> actual1 = ((IWrapper<IFilter<object, object>>)component).Item;
+            object actual2 = ((IWrapper)component).Item;
 
             // Assert
-            actual.Should().BeSameAs(component.Filter);
+            actual1.Should().BeSameAs(component.Filter);
+            actual2.Should().BeSameAs(component.Filter);
         }
     }
 }

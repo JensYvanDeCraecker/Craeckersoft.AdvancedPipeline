@@ -28,6 +28,14 @@ namespace Craeckersoft.AdvancedPipeline.Components.Internal
             }
         }
 
+        object IWrapper.Item
+        {
+            get
+            {
+                return Middleware;
+            }
+        }
+
         private class Invoker : IComponentInvoker<TRequest, TResponse>
         {
             private readonly MiddlewareComponent<TRequest, TNextRequest, TNextResponse, TResponse> middlewareComponent;

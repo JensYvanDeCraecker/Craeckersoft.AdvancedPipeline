@@ -25,5 +25,13 @@ namespace Craeckersoft.AdvancedPipeline.Internal
                 return Delegate;
             }
         }
+
+        object IWrapper.Item
+        {
+            get
+            {
+                return Delegate;
+            }
+        }
     }
 }

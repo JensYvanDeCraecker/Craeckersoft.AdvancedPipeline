@@ -61,10 +61,12 @@ namespace Craeckersoft.AdvancedPipeline.Tests.Components.Internal
             DelegateComponentInvoker<object, object> componentInvoker = new DelegateComponentInvoker<object, object>(FakeDelegates.ComponentInvoker(null));
 
             // Act
-            ComponentInvokerDelegate<object, object> actual = ((IWrapper<ComponentInvokerDelegate<object, object>>)componentInvoker).Item;
+            ComponentInvokerDelegate<object, object> actual1 = ((IWrapper<ComponentInvokerDelegate<object, object>>)componentInvoker).Item;
+            object actual2 = ((IWrapper)componentInvoker).Item;
 
             // Assert
-            actual.Should().BeSameAs(componentInvoker.Delegate);
+            actual1.Should().BeSameAs(componentInvoker.Delegate);
+            actual2.Should().BeSameAs(componentInvoker.Delegate);
         }
     }
 }

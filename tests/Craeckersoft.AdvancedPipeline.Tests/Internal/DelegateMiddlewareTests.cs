@@ -64,10 +64,12 @@ namespace Craeckersoft.AdvancedPipeline.Tests.Internal
             DelegateMiddleware<object, object, object, object> delegateMiddleware = new DelegateMiddleware<object, object, object, object>(FakeDelegates.Middleware(null));
 
             // Act
-            MiddlewareDelegate<object, object, object, object> actual = ((IWrapper<MiddlewareDelegate<object, object, object, object>>)delegateMiddleware).Item;
+            MiddlewareDelegate<object, object, object, object> actual1 = ((IWrapper<MiddlewareDelegate<object, object, object, object>>)delegateMiddleware).Item;
+            object actual2 = ((IWrapper)delegateMiddleware).Item;
 
             // Assert
-            actual.Should().BeSameAs(delegateMiddleware.Delegate);
+            actual1.Should().BeSameAs(delegateMiddleware.Delegate);
+            actual2.Should().BeSameAs(delegateMiddleware.Delegate);
         }
     }
 }

@@ -62,10 +62,12 @@ namespace Craeckersoft.AdvancedPipeline.Tests.Internal
             DelegateFilter<object, object> delegateFilter = new DelegateFilter<object, object>(FakeDelegates.Filter(null));
 
             // Act
-            FilterDelegate<object, object> actual = ((IWrapper<FilterDelegate<object, object>>)delegateFilter).Item;
+            FilterDelegate<object, object> actual1 = ((IWrapper<FilterDelegate<object, object>>)delegateFilter).Item;
+            object actual2 = ((IWrapper)delegateFilter).Item;
 
             // Assert
-            actual.Should().BeSameAs(delegateFilter.Delegate);
+            actual1.Should().BeSameAs(delegateFilter.Delegate);
+            actual2.Should().BeSameAs(delegateFilter.Delegate);
         }
     }
 }

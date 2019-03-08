@@ -93,10 +93,12 @@ namespace Craeckersoft.AdvancedPipeline.Tests.Components.Internal
             DelegateComponent<object, object, object, object> component = new DelegateComponent<object, object, object, object>(FakeDelegates.Component(null));
 
             // Act
-            ComponentDelegate<object, object, object, object> actual = ((IWrapper<ComponentDelegate<object, object, object, object>>)component).Item;
+            ComponentDelegate<object, object, object, object> actual1 = ((IWrapper<ComponentDelegate<object, object, object, object>>)component).Item;
+            object actual2 = ((IWrapper)component).Item;
 
             // Assert
-            actual.Should().BeSameAs(component.Delegate);
+            actual1.Should().BeSameAs(component.Delegate);
+            actual2.Should().BeSameAs(component.Delegate);
         }
     }
 }

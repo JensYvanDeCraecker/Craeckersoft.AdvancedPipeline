@@ -3,11 +3,11 @@ using System.Threading.Tasks;
 using Craeckersoft.AdvancedPipeline.Components;
 using Craeckersoft.AdvancedPipeline.Utilities;
 
-namespace Craeckersoft.AdvancedPipeline.Internal
+namespace Craeckersoft.AdvancedPipeline
 {
     public sealed class DelegateMiddleware<TRequest, TNextRequest, TNextResponse, TResponse> : IMiddleware<TRequest, TNextRequest, TNextResponse, TResponse>, IWrapper<MiddlewareDelegate<TRequest, TNextRequest, TNextResponse, TResponse>>
     {
-        public DelegateMiddleware(MiddlewareDelegate<TRequest, TNextRequest, TNextResponse, TResponse> middlewareDelegate)
+        internal DelegateMiddleware(MiddlewareDelegate<TRequest, TNextRequest, TNextResponse, TResponse> middlewareDelegate)
         {
             Delegate = middlewareDelegate ?? throw new ArgumentNullException(nameof(middlewareDelegate));
         }

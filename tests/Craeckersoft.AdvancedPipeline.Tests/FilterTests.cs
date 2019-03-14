@@ -25,10 +25,10 @@ namespace Craeckersoft.AdvancedPipeline.Tests
             FilterDelegate<object, object> expectedFilterDelegate = FakeDelegates.Filter(null);
 
             // Act
-            IFilter<object, object> filter = Filter.FromDelegate(expectedFilterDelegate);
+            DelegateFilter<object, object> filter = Filter.FromDelegate(expectedFilterDelegate);
 
             // Assert
-            filter.Should().BeDelegateFilter().Which.Delegate.Should().BeSameAs(expectedFilterDelegate);
+            filter.Should().NotBeNull();
         }
     }
 }

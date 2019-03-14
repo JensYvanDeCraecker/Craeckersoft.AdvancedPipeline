@@ -16,10 +16,10 @@ namespace Craeckersoft.AdvancedPipeline.Tests.Components
             ComponentInvokerDelegate<object, object> expectedComponentInvokerDelegateDelegate = FakeDelegates.ComponentInvoker(null);
 
             // Act
-            IComponentInvoker<object, object> componentInvoker = ComponentInvoker.FromDelegate(expectedComponentInvokerDelegateDelegate);
+            DelegateComponentInvoker<object, object> componentInvoker = ComponentInvoker.FromDelegate(expectedComponentInvokerDelegateDelegate);
 
             // Assert
-            componentInvoker.Should().BeDelegateComponentInvoker().Which.Delegate.Should().BeSameAs(expectedComponentInvokerDelegateDelegate);
+            componentInvoker.Should().NotBeNull();
         }
 
         [Fact]

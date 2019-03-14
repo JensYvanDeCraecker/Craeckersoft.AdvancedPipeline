@@ -2,11 +2,11 @@ using System;
 using System.Threading.Tasks;
 using Craeckersoft.AdvancedPipeline.Utilities;
 
-namespace Craeckersoft.AdvancedPipeline.Components.Internal
+namespace Craeckersoft.AdvancedPipeline.Components
 {
-    public class DelegateComponentInvoker<TRequest, TResponse> : IComponentInvoker<TRequest, TResponse>, IWrapper<ComponentInvokerDelegate<TRequest, TResponse>>
+    public sealed class DelegateComponentInvoker<TRequest, TResponse> : IComponentInvoker<TRequest, TResponse>, IWrapper<ComponentInvokerDelegate<TRequest, TResponse>>
     {
-        public DelegateComponentInvoker(ComponentInvokerDelegate<TRequest, TResponse> componentInvokerDelegate)
+        internal DelegateComponentInvoker(ComponentInvokerDelegate<TRequest, TResponse> componentInvokerDelegate)
         {
             Delegate = componentInvokerDelegate ?? throw new ArgumentNullException(nameof(componentInvokerDelegate));
         }

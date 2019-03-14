@@ -2,11 +2,11 @@ using System;
 using System.Threading.Tasks;
 using Craeckersoft.AdvancedPipeline.Utilities;
 
-namespace Craeckersoft.AdvancedPipeline.Components.Internal
+namespace Craeckersoft.AdvancedPipeline.Components
 {
     public sealed class FilterComponent<TRequest, TFilterResponse, TResponse> : IComponent<TRequest, TFilterResponse, TResponse, TResponse>, IWrapper<IFilter<TRequest, TFilterResponse>>
     {
-        public FilterComponent(IFilter<TRequest, TFilterResponse> filter)
+        internal FilterComponent(IFilter<TRequest, TFilterResponse> filter)
         {
             Filter = filter ?? throw new ArgumentNullException(nameof(filter));
         }

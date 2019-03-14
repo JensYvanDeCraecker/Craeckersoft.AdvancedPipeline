@@ -2,7 +2,7 @@ using System;
 using System.Threading.Tasks;
 using Craeckersoft.AdvancedPipeline.Utilities;
 
-namespace Craeckersoft.AdvancedPipeline.Internal
+namespace Craeckersoft.AdvancedPipeline
 {
     public sealed class DelegateFilter<TRequest, TResponse> : IFilter<TRequest, TResponse>, IWrapper<FilterDelegate<TRequest, TResponse>>
     {

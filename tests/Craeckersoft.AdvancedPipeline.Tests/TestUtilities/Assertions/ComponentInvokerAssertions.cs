@@ -1,5 +1,4 @@
 using Craeckersoft.AdvancedPipeline.Components;
-using Craeckersoft.AdvancedPipeline.Components.Internal;
 using FluentAssertions;
 using FluentAssertions.Primitives;
 

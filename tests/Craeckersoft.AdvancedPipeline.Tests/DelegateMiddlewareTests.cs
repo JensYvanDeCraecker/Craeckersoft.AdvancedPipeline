@@ -1,14 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Craeckersoft.AdvancedPipeline.Internal;
 using Craeckersoft.AdvancedPipeline.Tests.TestUtilities;
 using Craeckersoft.AdvancedPipeline.Tests.TestUtilities.Fakes;
 using Craeckersoft.AdvancedPipeline.Utilities;
 using FluentAssertions;
 using Xunit;
 
-namespace Craeckersoft.AdvancedPipeline.Tests.Internal
+namespace Craeckersoft.AdvancedPipeline.Tests
 {
     public class DelegateMiddlewareTests
     {
@@ -16,7 +15,7 @@ namespace Craeckersoft.AdvancedPipeline.Tests.Internal
         public void Constructor_MiddlewareDelegateIsNull_ThrowsArgumentNullException()
         {
             // Arrange
-            Func<DelegateMiddleware<string, string, string, string>> act = () => new DelegateMiddleware<string, string, string, string>(null);
+            Func<DelegateMiddleware<object, object, object, object>> act = () => Middleware.FromDelegate((MiddlewareDelegate<object, object, object, object>)null);
 
             // Act - Assert
             act.Should().Throw<ArgumentNullException>().Which.ParamName.Should().Be("middlewareDelegate");
@@ -28,7 +27,7 @@ namespace Craeckersoft.AdvancedPipeline.Tests.Internal
             // Arrange
             object expected = new object();
             ISet<TestItem> tests = new HashSet<TestItem>();
-            DelegateMiddleware<object, object, object, object> middleware = new DelegateMiddleware<object, object, object, object>(FakeDelegates.Middleware(tests));
+            DelegateMiddleware<object, object, object, object> middleware = Middleware.FromDelegate(FakeDelegates.Middleware(tests));
 
             // Act
             object actual = await middleware.InvokeAsync(expected, new FakeInvocationContext(), new FakeComponentInvoker(tests));
@@ -48,7 +47,7 @@ namespace Craeckersoft.AdvancedPipeline.Tests.Internal
         {
             // Arrange
             MiddlewareDelegate<object, object, object, object> expectedMiddlewareDelegate = FakeDelegates.Middleware(null);
-            DelegateMiddleware<object, object, object, object> middleware = new DelegateMiddleware<object, object, object, object>(expectedMiddlewareDelegate);
+            DelegateMiddleware<object, object, object, object> middleware = Middleware.FromDelegate(expectedMiddlewareDelegate);
 
             // Act
             MiddlewareDelegate<object, object, object, object> actualMiddlewareDelegate = middleware.Delegate;
@@ -61,7 +60,7 @@ namespace Craeckersoft.AdvancedPipeline.Tests.Internal
         public void Property_Item_IsSameAsDelegate()
         {
             // Arrange
-            DelegateMiddleware<object, object, object, object> delegateMiddleware = new DelegateMiddleware<object, object, object, object>(FakeDelegates.Middleware(null));
+            DelegateMiddleware<object, object, object, object> delegateMiddleware = Middleware.FromDelegate(FakeDelegates.Middleware(null));
 
             // Act
             MiddlewareDelegate<object, object, object, object> actual1 = ((IWrapper<MiddlewareDelegate<object, object, object, object>>)delegateMiddleware).Item;

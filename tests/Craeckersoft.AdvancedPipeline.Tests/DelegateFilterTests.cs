@@ -1,14 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Craeckersoft.AdvancedPipeline.Internal;
 using Craeckersoft.AdvancedPipeline.Tests.TestUtilities;
 using Craeckersoft.AdvancedPipeline.Tests.TestUtilities.Fakes;
 using Craeckersoft.AdvancedPipeline.Utilities;
 using FluentAssertions;
 using Xunit;
 
-namespace Craeckersoft.AdvancedPipeline.Tests.Internal
+namespace Craeckersoft.AdvancedPipeline.Tests
 {
     public class DelegateFilterTests
     {

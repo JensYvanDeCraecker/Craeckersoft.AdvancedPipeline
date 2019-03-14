@@ -26,10 +26,10 @@ namespace Craeckersoft.AdvancedPipeline.Tests.Components
             ComponentDelegate<object, object, object, object> expectedComponentDelegate = FakeDelegates.Component(null);
 
             // Act
-            IComponent<object, object, object, object> component = Component.FromDelegate(expectedComponentDelegate);
+            DelegateComponent<object, object, object, object> component = Component.FromDelegate(expectedComponentDelegate);
 
             // Assert
-            component.Should().BeDelegateComponent().Which.Delegate.Should().BeSameAs(expectedComponentDelegate);
+            component.Should().NotBeNull();
         }
 
         [Fact]
@@ -49,10 +49,10 @@ namespace Craeckersoft.AdvancedPipeline.Tests.Components
             IFilter<object, object> expectedFilter = new FakeFilter(null);
 
             // Act
-            IComponent<object, object, object, object> component = Component.FromFilter<object, object, object>(expectedFilter);
+            FilterComponent<object, object, object> component = Component.FromFilter<object, object, object>(expectedFilter);
 
             // Act
-            component.Should().BeFilterComponent().Which.Filter.Should().BeSameAs(expectedFilter);
+            component.Should().NotBeNull();
         }
 
         [Fact]
@@ -72,10 +72,10 @@ namespace Craeckersoft.AdvancedPipeline.Tests.Components
             IMiddleware<object, object, object, object> expectedMiddleware = new FakeMiddleware(null);
 
             // Act
-            IComponent<object, object, object, object> component = Component.FromMiddleware(expectedMiddleware);
+            MiddlewareComponent<object, object, object, object> component = Component.FromMiddleware(expectedMiddleware);
 
             // Assert
-            component.Should().BeMiddlewareComponent().Which.Middleware.Should().BeSameAs(expectedMiddleware);
+            component.Should().NotBeNull();
         }
     }
 }

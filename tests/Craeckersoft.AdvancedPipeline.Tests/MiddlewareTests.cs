@@ -25,10 +25,10 @@ namespace Craeckersoft.AdvancedPipeline.Tests
             MiddlewareDelegate<object, object, object, object> expectedMiddlewareDelegate = FakeDelegates.Middleware(null);
 
             // Act
-            IMiddleware<object, object, object, object> middleware = Middleware.FromDelegate(expectedMiddlewareDelegate);
+            DelegateMiddleware<object, object, object, object> middleware = Middleware.FromDelegate(expectedMiddlewareDelegate);
 
             // Assert
-            middleware.Should().BeDelegateMiddleware().Which.Delegate.Should().BeSameAs(expectedMiddlewareDelegate);
+            middleware.Should().NotBeNull();
         }
     }
 }

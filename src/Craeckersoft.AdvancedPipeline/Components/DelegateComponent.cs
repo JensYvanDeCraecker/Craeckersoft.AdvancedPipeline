@@ -1,11 +1,11 @@
 using System;
 using Craeckersoft.AdvancedPipeline.Utilities;
 
-namespace Craeckersoft.AdvancedPipeline.Components.Internal
+namespace Craeckersoft.AdvancedPipeline.Components
 {
     public sealed class DelegateComponent<TRequest, TNextRequest, TNextResponse, TResponse> : IComponent<TRequest, TNextRequest, TNextResponse, TResponse>, IWrapper<ComponentDelegate<TRequest, TNextRequest, TNextResponse, TResponse>>
     {
-        public DelegateComponent(ComponentDelegate<TRequest, TNextRequest, TNextResponse, TResponse> componentDelegate)
+        internal DelegateComponent(ComponentDelegate<TRequest, TNextRequest, TNextResponse, TResponse> componentDelegate)
         {
             Delegate = componentDelegate ?? throw new ArgumentNullException(nameof(componentDelegate));
         }

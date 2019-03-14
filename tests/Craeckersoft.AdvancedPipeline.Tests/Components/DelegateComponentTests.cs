@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Craeckersoft.AdvancedPipeline.Components;
-using Craeckersoft.AdvancedPipeline.Components.Internal;
 using Craeckersoft.AdvancedPipeline.Tests.TestUtilities;
 using Craeckersoft.AdvancedPipeline.Tests.TestUtilities.Assertions;
 using Craeckersoft.AdvancedPipeline.Tests.TestUtilities.Fakes;
@@ -10,7 +9,7 @@ using Craeckersoft.AdvancedPipeline.Utilities;
 using FluentAssertions;
 using Xunit;
 
-namespace Craeckersoft.AdvancedPipeline.Tests.Components.Internal
+namespace Craeckersoft.AdvancedPipeline.Tests.Components
 {
     public class DelegateComponentTests
     {
@@ -22,7 +21,7 @@ namespace Craeckersoft.AdvancedPipeline.Tests.Components.Internal
                 // Arrange
                 object expected = new object();
                 ISet<TestItem> tests = new HashSet<TestItem>();
-                IComponentInvoker<object, object> componentInvoker = new DelegateComponent<object, object, object, object>(FakeDelegates.Component(tests)).CreateInvoker(new FakeComponentInvoker(tests));
+                IComponentInvoker<object, object> componentInvoker = Component.FromDelegate(FakeDelegates.Component(tests)).CreateInvoker(new FakeComponentInvoker(tests));
 
                 // Act
                 object actual = await componentInvoker.InvokeAsync(expected, new FakeInvocationContext());
@@ -39,20 +38,10 @@ namespace Craeckersoft.AdvancedPipeline.Tests.Components.Internal
         }
 
         [Fact]
-        public void Constructor_ComponentDelegateIsNull_ThrowsArgumentNullException()
-        {
-            // Arrange
-            Func<DelegateComponent<object, object, object, object>> act = () => new DelegateComponent<object, object, object, object>(null);
-
-            // Act - Assert
-            act.Should().Throw<ArgumentNullException>().Which.ParamName.Should().Be("componentDelegate");
-        }
-
-        [Fact]
         public void Method_CreateInvoker_ReturnsInvoker()
         {
             // Arrange
-            DelegateComponent<object, object, object, object> component = new DelegateComponent<object, object, object, object>(FakeDelegates.Component(null));
+            DelegateComponent<object, object, object, object> component = Component.FromDelegate(FakeDelegates.Component(null));
 
             // Act
             IComponentInvoker<object, object> invoker = component.CreateInvoker(new FakeComponentInvoker(null));
@@ -65,7 +54,7 @@ namespace Craeckersoft.AdvancedPipeline.Tests.Components.Internal
         public void Method_GetInvoker_ComponentDelegateReturnsNull_ThrowsInvalidOperationException()
         {
             // Arrange
-            DelegateComponent<object, object, object, object> component = new DelegateComponent<object, object, object, object>(FakeDelegates.ComponentNull);
+            DelegateComponent<object, object, object, object> component = Component.FromDelegate(FakeDelegates.ComponentNull);
             Action act = () => component.CreateInvoker(new FakeComponentInvoker(null));
 
             // Act - Assert
@@ -77,7 +66,7 @@ namespace Craeckersoft.AdvancedPipeline.Tests.Components.Internal
         {
             // Arrange
             ComponentDelegate<object, object, object, object> expectedComponentDelegate = FakeDelegates.Component(null);
-            DelegateComponent<object, object, object, object> component = new DelegateComponent<object, object, object, object>(expectedComponentDelegate);
+            DelegateComponent<object, object, object, object> component = Component.FromDelegate(expectedComponentDelegate);
 
             // Act
             ComponentDelegate<object, object, object, object> actualComponentDelegate = component.Delegate;
@@ -90,7 +79,7 @@ namespace Craeckersoft.AdvancedPipeline.Tests.Components.Internal
         public void Property_Item_IsSameAsDelegate()
         {
             // Arrange
-            DelegateComponent<object, object, object, object> component = new DelegateComponent<object, object, object, object>(FakeDelegates.Component(null));
+            DelegateComponent<object, object, object, object> component = Component.FromDelegate(FakeDelegates.Component(null));
 
             // Act
             ComponentDelegate<object, object, object, object> actual1 = ((IWrapper<ComponentDelegate<object, object, object, object>>)component).Item;

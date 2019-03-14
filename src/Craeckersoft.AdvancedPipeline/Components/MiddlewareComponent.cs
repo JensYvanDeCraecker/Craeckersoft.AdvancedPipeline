@@ -2,11 +2,11 @@ using System;
 using System.Threading.Tasks;
 using Craeckersoft.AdvancedPipeline.Utilities;
 
-namespace Craeckersoft.AdvancedPipeline.Components.Internal
+namespace Craeckersoft.AdvancedPipeline.Components
 {
     public sealed class MiddlewareComponent<TRequest, TNextRequest, TNextResponse, TResponse> : IComponent<TRequest, TNextRequest, TNextResponse, TResponse>, IWrapper<IMiddleware<TRequest, TNextRequest, TNextResponse, TResponse>>
     {
-        public MiddlewareComponent(IMiddleware<TRequest, TNextRequest, TNextResponse, TResponse> middleware)
+        internal MiddlewareComponent(IMiddleware<TRequest, TNextRequest, TNextResponse, TResponse> middleware)
         {
             Middleware = middleware ?? throw new ArgumentNullException(nameof(middleware));
         }

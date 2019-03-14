@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Craeckersoft.AdvancedPipeline.Components;
-using Craeckersoft.AdvancedPipeline.Components.Internal;
 using Craeckersoft.AdvancedPipeline.Tests.TestUtilities;
 using Craeckersoft.AdvancedPipeline.Tests.TestUtilities.Assertions;
 using Craeckersoft.AdvancedPipeline.Tests.TestUtilities.Fakes;
@@ -10,7 +9,7 @@ using Craeckersoft.AdvancedPipeline.Utilities;
 using FluentAssertions;
 using Xunit;
 
-namespace Craeckersoft.AdvancedPipeline.Tests.Components.Internal
+namespace Craeckersoft.AdvancedPipeline.Tests.Components
 {
     public class MiddlewareComponentTests
     {
@@ -22,7 +21,7 @@ namespace Craeckersoft.AdvancedPipeline.Tests.Components.Internal
                 // Arrange
                 object expected = new object();
                 ISet<TestItem> tests = new HashSet<TestItem>();
-                IComponentInvoker<object, object> componentInvoker = new MiddlewareComponent<object, object, object, object>(new FakeMiddleware(tests)).CreateInvoker(new FakeComponentInvoker(tests));
+                IComponentInvoker<object, object> componentInvoker = Component.FromMiddleware(new FakeMiddleware(tests)).CreateInvoker(new FakeComponentInvoker(tests));
 
                 // Act
                 object actual = await componentInvoker.InvokeAsync(expected, new FakeInvocationContext());
@@ -39,20 +38,10 @@ namespace Craeckersoft.AdvancedPipeline.Tests.Components.Internal
         }
 
         [Fact]
-        public void Constructor_MiddlewareIsNull_ThrowsArgumentNullException()
-        {
-            // Arrange
-            Func<MiddlewareComponent<object, object, object, object>> act = () => new MiddlewareComponent<object, object, object, object>(null);
-
-            // Act - Assert
-            act.Should().Throw<ArgumentNullException>().Which.ParamName.Should().Be("middleware");
-        }
-
-        [Fact]
         public void Method_CreateInvoker_NextIsNull_ThrowsArgumentNullException()
         {
             // Arrange
-            Action act = () => new MiddlewareComponent<object, object, object, object>(new FakeMiddleware(null)).CreateInvoker(null);
+            Action act = () => Component.FromMiddleware(new FakeMiddleware(null)).CreateInvoker(null);
 
             // Act - Assert
             act.Should().Throw<ArgumentNullException>().Which.ParamName.Should().Be("next");
@@ -62,7 +51,7 @@ namespace Craeckersoft.AdvancedPipeline.Tests.Components.Internal
         public void Method_CreateInvoker_ReturnsInvoker()
         {
             // Arrange
-            MiddlewareComponent<object, object, object, object> component = new MiddlewareComponent<object, object, object, object>(new FakeMiddleware(null));
+            MiddlewareComponent<object, object, object, object> component = Component.FromMiddleware(new FakeMiddleware(null));
 
             // Act
             IComponentInvoker<object, object> invoker = component.CreateInvoker(new FakeComponentInvoker(null));
@@ -75,7 +64,7 @@ namespace Craeckersoft.AdvancedPipeline.Tests.Components.Internal
         public void Property_Item_IsSameAsMiddleware()
         {
             // Arrange
-            MiddlewareComponent<object, object, object, object> component = new MiddlewareComponent<object, object, object, object>(new FakeMiddleware(null));
+            MiddlewareComponent<object, object, object, object> component = Component.FromMiddleware(new FakeMiddleware(null));
 
             // Act
             IMiddleware<object, object, object, object> actual1 = ((IWrapper<IMiddleware<object, object, object, object>>)component).Item;
@@ -91,7 +80,7 @@ namespace Craeckersoft.AdvancedPipeline.Tests.Components.Internal
         {
             // Arrange
             IMiddleware<object, object, object, object> expectedMiddleware = new FakeMiddleware(null);
-            MiddlewareComponent<object, object, object, object> component = new MiddlewareComponent<object, object, object, object>(expectedMiddleware);
+            MiddlewareComponent<object, object, object, object> component = Component.FromMiddleware(expectedMiddleware);
 
             // Act
             IMiddleware<object, object, object, object> actualMiddleware = component.Middleware;

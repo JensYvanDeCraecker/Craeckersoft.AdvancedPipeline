@@ -9,7 +9,7 @@ namespace Craeckersoft.AdvancedPipeline.Components
 
         public event EventHandler<ComponentInvokedEventArgs<TRequest, TNextRequest, TNextResponse, TResponse>> Invoked;
 
-        public IComponentInvoker<TRequest, TResponse> CreateInvoker(IComponentInvoker<TNextRequest, TNextResponse> next)
+        public IComponentInvoker<TRequest, TResponse> GetInvoker(IComponentInvoker<TNextRequest, TNextResponse> next)
         {
             if (next == null)
                 throw new ArgumentNullException(nameof(next));

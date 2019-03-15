@@ -22,7 +22,7 @@ namespace ConsoleTest
                 Console.WriteLine("Component invocation ended. Response: {0}", eventArgs.Response);
                 eventArgs.Response = "B";
             };
-            string response = await component.CreateInvoker(ComponentInvoker.FromDelegate<string, string>((request, ctx) => Task.FromResult(request + "S"))).InvokeAsync("R", new SomeInvocationContext());
+            string response = await component.GetInvoker(ComponentInvoker.FromDelegate<string, string>((request, ctx) => Task.FromResult(request + "S"))).InvokeAsync("R", new SomeInvocationContext());
             Console.WriteLine(response);
         }
 

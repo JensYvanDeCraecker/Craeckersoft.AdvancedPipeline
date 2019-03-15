@@ -8,6 +8,6 @@ namespace Craeckersoft.AdvancedPipeline.Components
 
         event EventHandler<ComponentInvokedEventArgs<TRequest, TNextRequest, TNextResponse, TResponse>> Invoked;
 
-        IComponentInvoker<TRequest, TResponse> CreateInvoker(IComponentInvoker<TNextRequest, TNextResponse> next);
+        IComponentInvoker<TRequest, TResponse> GetInvoker(IComponentInvoker<TNextRequest, TNextResponse> next);
     }
 }

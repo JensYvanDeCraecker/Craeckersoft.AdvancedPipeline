@@ -20,7 +20,7 @@ namespace Craeckersoft.AdvancedPipeline.Tests.Components
                 // Arrange
                 object expected = new object();
                 ISet<TestItem> tests = new HashSet<TestItem>();
-                IComponentInvoker<object, object> componentInvoker = Component.FromFilter<object, object, object>(new FakeFilter(tests)).CreateInvoker(new FakeComponentInvoker(tests));
+                IComponentInvoker<object, object> componentInvoker = Component.FromFilter<object, object, object>(new FakeFilter(tests)).GetInvoker(new FakeComponentInvoker(tests));
 
                 // Act
                 object actual = await componentInvoker.InvokeAsync(expected, new FakeInvocationContext());
@@ -40,7 +40,7 @@ namespace Craeckersoft.AdvancedPipeline.Tests.Components
         {
             // Arrange
             FilterComponent<object, object, object> component = Component.FromFilter<object, object, object>(new FakeFilter(null));
-            Action act = () => component.CreateInvoker(null);
+            Action act = () => component.GetInvoker(null);
 
             // Act - Assert
             act.Should().Throw<ArgumentNullException>().Which.ParamName.Should().Be("next");
@@ -53,7 +53,7 @@ namespace Craeckersoft.AdvancedPipeline.Tests.Components
             FilterComponent<object, object, object> component = Component.FromFilter<object, object, object>(new FakeFilter(null));
 
             // Act
-            IComponentInvoker<object, object> invoker = component.CreateInvoker(new FakeComponentInvoker(null));
+            IComponentInvoker<object, object> invoker = component.GetInvoker(new FakeComponentInvoker(null));
 
             // Assert
             invoker.Should().NotBeNull();

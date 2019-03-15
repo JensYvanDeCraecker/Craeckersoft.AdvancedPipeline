@@ -30,7 +30,7 @@ namespace Craeckersoft.AdvancedPipeline.Utilities
 
         public object CreateInvoker(object next)
         {
-            return Component.CreateInvoker((IComponentInvoker<TNextRequest, TNextResponse>)next);
+            return Component.GetInvoker((IComponentInvoker<TNextRequest, TNextResponse>)next);
         }
 
         public bool Equals(IComponentInfo other)

@@ -5,7 +5,6 @@ using Craeckersoft.AdvancedPipeline.Components;
 using Craeckersoft.AdvancedPipeline.Tests.TestUtilities;
 using Craeckersoft.AdvancedPipeline.Tests.TestUtilities.Assertions;
 using Craeckersoft.AdvancedPipeline.Tests.TestUtilities.Fakes;
-using Craeckersoft.AdvancedPipeline.Utilities;
 using FluentAssertions;
 using Xunit;
 
@@ -58,21 +57,6 @@ namespace Craeckersoft.AdvancedPipeline.Tests.Components
 
             // Assert
             invoker.Should().NotBeNull();
-        }
-
-        [Fact]
-        public void Property_Item_IsSameAsMiddleware()
-        {
-            // Arrange
-            MiddlewareComponent<object, object, object, object> component = Component.FromMiddleware(new FakeMiddleware(null));
-
-            // Act
-            IMiddleware<object, object, object, object> actual1 = ((IWrapper<IMiddleware<object, object, object, object>>)component).Item;
-            object actual2 = ((IWrapper)component).Item;
-
-            // Assert
-            actual1.Should().BeSameAs(component.Middleware);
-            actual2.Should().BeSameAs(component.Middleware);
         }
 
         [Fact]

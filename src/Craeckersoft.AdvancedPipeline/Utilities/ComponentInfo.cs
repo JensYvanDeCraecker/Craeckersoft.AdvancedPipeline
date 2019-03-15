@@ -11,7 +11,7 @@ namespace Craeckersoft.AdvancedPipeline.Utilities
         }
     }
 
-    public sealed class ComponentInfo<TRequest, TNextRequest, TNextResponse, TResponse> : IComponentInfo, IWrapper<IComponent<TRequest, TNextRequest, TNextResponse, TResponse>>, IEquatable<ComponentInfo<TRequest, TNextRequest, TNextResponse, TResponse>>
+    public sealed class ComponentInfo<TRequest, TNextRequest, TNextResponse, TResponse> : IComponentInfo, IEquatable<ComponentInfo<TRequest, TNextRequest, TNextResponse, TResponse>>
     {
         internal ComponentInfo(IComponent<TRequest, TNextRequest, TNextResponse, TResponse> component)
         {
@@ -33,14 +33,6 @@ namespace Craeckersoft.AdvancedPipeline.Utilities
             return Component.CreateInvoker((IComponentInvoker<TNextRequest, TNextResponse>)next);
         }
 
-        object IWrapper.Item
-        {
-            get
-            {
-                return Component;
-            }
-        }
-
         public bool Equals(IComponentInfo other)
         {
             return other is ComponentInfo<TRequest, TNextRequest, TNextResponse, TResponse> info && Equals(info);
@@ -49,14 +41,6 @@ namespace Craeckersoft.AdvancedPipeline.Utilities
         public bool Equals(ComponentInfo<TRequest, TNextRequest, TNextResponse, TResponse> other)
         {
             return other != null && Equals(Component, other.Component);
-        }
-
-        IComponent<TRequest, TNextRequest, TNextResponse, TResponse> IWrapper<IComponent<TRequest, TNextRequest, TNextResponse, TResponse>>.Item
-        {
-            get
-            {
-                return Component;
-            }
         }
 
         public override bool Equals(object obj)

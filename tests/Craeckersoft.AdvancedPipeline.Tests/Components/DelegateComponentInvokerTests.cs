@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using Craeckersoft.AdvancedPipeline.Components;
 using Craeckersoft.AdvancedPipeline.Tests.TestUtilities;
 using Craeckersoft.AdvancedPipeline.Tests.TestUtilities.Fakes;
-using Craeckersoft.AdvancedPipeline.Utilities;
 using FluentAssertions;
 using Xunit;
 
@@ -40,21 +39,6 @@ namespace Craeckersoft.AdvancedPipeline.Tests.Components
 
             // Assert
             actualComponentInvokerDelegate.Should().BeSameAs(expectedComponentInvokerDelegate);
-        }
-
-        [Fact]
-        public void Property_Item_IsSameAsDelegate()
-        {
-            // Arrange
-            DelegateComponentInvoker<object, object> componentInvoker = ComponentInvoker.FromDelegate(FakeDelegates.ComponentInvoker(null));
-
-            // Act
-            ComponentInvokerDelegate<object, object> actual1 = ((IWrapper<ComponentInvokerDelegate<object, object>>)componentInvoker).Item;
-            object actual2 = ((IWrapper)componentInvoker).Item;
-
-            // Assert
-            actual1.Should().BeSameAs(componentInvoker.Delegate);
-            actual2.Should().BeSameAs(componentInvoker.Delegate);
         }
     }
 }

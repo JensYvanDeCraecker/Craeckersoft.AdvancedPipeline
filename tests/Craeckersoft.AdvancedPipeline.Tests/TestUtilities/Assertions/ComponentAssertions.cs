@@ -25,10 +25,10 @@ namespace Craeckersoft.AdvancedPipeline.Tests.TestUtilities.Assertions
             return BeOfType<FilterComponent<TRequest, TNextRequest, TResponse>>(because, becauseArgs);
         }
 
-        [CustomAssertion]
-        public AndWhichConstraint<ComponentAssertions<TRequest, TNextRequest, TNextResponse, TResponse>, DelegateComponent<TRequest, TNextRequest, TNextResponse, TResponse>> BeDelegateComponent(string because = "", params object[] becauseArgs)
-        {
-            return BeOfType<DelegateComponent<TRequest, TNextRequest, TNextResponse, TResponse>>(because, becauseArgs);
-        }
+        // [CustomAssertion]
+        // public AndWhichConstraint<ComponentAssertions<TRequest, TNextRequest, TNextResponse, TResponse>, DelegateComponent<TRequest, TNextRequest, TNextResponse, TResponse>> BeDelegateComponent(string because = "", params object[] becauseArgs)
+        // {
+        //     return BeOfType<DelegateComponent<TRequest, TNextRequest, TNextResponse, TResponse>>(because, becauseArgs);
+        // }
     }
 }

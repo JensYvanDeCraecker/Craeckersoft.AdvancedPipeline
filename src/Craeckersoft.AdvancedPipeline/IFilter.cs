@@ -2,7 +2,8 @@ using System.Threading.Tasks;
 
 namespace Craeckersoft.AdvancedPipeline
 {
-    public interface IFilter<in TRequest, TResponse>
+    // ReSharper disable once TypeParameterCanBeVariant
+    public interface IFilter<TRequest, TResponse>
     {
         Task<TResponse> InvokeAsync(TRequest request, IInvocationContext invocationContext);
     }

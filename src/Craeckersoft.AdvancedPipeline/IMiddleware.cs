@@ -3,7 +3,8 @@ using Craeckersoft.AdvancedPipeline.Components;
 
 namespace Craeckersoft.AdvancedPipeline
 {
-    public interface IMiddleware<in TRequest, out TNextRequest, TNextResponse, TResponse>
+    // ReSharper disable once TypeParameterCanBeVariant
+    public interface IMiddleware<TRequest, TNextRequest, TNextResponse, TResponse>
     {
         Task<TResponse> InvokeAsync(TRequest request, IInvocationContext invocationContext, IComponentInvoker<TNextRequest, TNextResponse> next);
     }

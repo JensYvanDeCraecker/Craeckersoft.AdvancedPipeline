@@ -2,7 +2,8 @@
 
 namespace Craeckersoft.AdvancedPipeline.Components
 {
-    public interface IComponentInvoker<in TRequest, TResponse>
+    // ReSharper disable once TypeParameterCanBeVariant
+    public interface IComponentInvoker<TRequest, TResponse>
     {
         Task<TResponse> InvokeAsync(TRequest request, IInvocationContext invocationContext);
     }

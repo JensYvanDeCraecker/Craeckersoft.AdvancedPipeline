@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Craeckersoft.AdvancedPipeline.Tests.TestUtilities;
 using Craeckersoft.AdvancedPipeline.Tests.TestUtilities.Fakes;
-using Craeckersoft.AdvancedPipeline.Utilities;
 using FluentAssertions;
 using Xunit;
 
@@ -52,21 +51,6 @@ namespace Craeckersoft.AdvancedPipeline.Tests
 
             // Assert
             actualFilterDelegate.Should().BeSameAs(expectedFilterDelegate);
-        }
-
-        [Fact]
-        public void Property_Item_IsSameAsDelegate()
-        {
-            // Arrange
-            DelegateFilter<object, object> delegateFilter = new DelegateFilter<object, object>(FakeDelegates.Filter(null));
-
-            // Act
-            FilterDelegate<object, object> actual1 = ((IWrapper<FilterDelegate<object, object>>)delegateFilter).Item;
-            object actual2 = ((IWrapper)delegateFilter).Item;
-
-            // Assert
-            actual1.Should().BeSameAs(delegateFilter.Delegate);
-            actual2.Should().BeSameAs(delegateFilter.Delegate);
         }
     }
 }

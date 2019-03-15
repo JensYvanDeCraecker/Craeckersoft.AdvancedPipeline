@@ -1,56 +1,20 @@
 using System;
 using System.Threading.Tasks;
-using Craeckersoft.AdvancedPipeline.Utilities;
 
 namespace Craeckersoft.AdvancedPipeline.Components
 {
-    public sealed class FilterComponent<TRequest, TFilterResponse, TResponse> : IComponent<TRequest, TFilterResponse, TResponse, TResponse>, IWrapper<IFilter<TRequest, TFilterResponse>>
+    public class FilterComponent<TRequest, TFilterResponse, TResponse> : ComponentBase<TRequest, TFilterResponse, TResponse, TResponse>
     {
-        internal FilterComponent(IFilter<TRequest, TFilterResponse> filter)
+        public FilterComponent(IFilter<TRequest, TFilterResponse> filter)
         {
             Filter = filter ?? throw new ArgumentNullException(nameof(filter));
         }
 
         public IFilter<TRequest, TFilterResponse> Filter { get; }
 
-        public IComponentInvoker<TRequest, TResponse> CreateInvoker(IComponentInvoker<TFilterResponse, TResponse> next)
+        protected sealed override async Task<TResponse> InvokeAsync(TRequest request, IInvocationContext invocationContext, IComponentInvoker<TFilterResponse, TResponse> next)
         {
-            if (next == null)
-                throw new ArgumentNullException(nameof(next));
-            return new Invoker(this, next);
-        }
-
-        IFilter<TRequest, TFilterResponse> IWrapper<IFilter<TRequest, TFilterResponse>>.Item
-        {
-            get
-            {
-                return Filter;
-            }
-        }
-
-        object IWrapper.Item
-        {
-            get
-            {
-                return Filter;
-            }
-        }
-
-        private class Invoker : IComponentInvoker<TRequest, TResponse>
-        {
-            private readonly FilterComponent<TRequest, TFilterResponse, TResponse> filterComponent;
-            private readonly IComponentInvoker<TFilterResponse, TResponse> next;
-
-            public Invoker(FilterComponent<TRequest, TFilterResponse, TResponse> filterComponent, IComponentInvoker<TFilterResponse, TResponse> next)
-            {
-                this.filterComponent = filterComponent;
-                this.next = next;
-            }
-
-            public async Task<TResponse> InvokeAsync(TRequest request, IInvocationContext invocationContext)
-            {
-                return await next.InvokeAsync(await filterComponent.Filter.InvokeAsync(request, invocationContext), invocationContext);
-            }
+            return await next.InvokeAsync(await Filter.InvokeAsync(request, invocationContext), invocationContext);
         }
     }
 }

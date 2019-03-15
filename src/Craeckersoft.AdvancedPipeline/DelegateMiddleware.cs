@@ -1,13 +1,12 @@
 using System;
 using System.Threading.Tasks;
 using Craeckersoft.AdvancedPipeline.Components;
-using Craeckersoft.AdvancedPipeline.Utilities;
 
 namespace Craeckersoft.AdvancedPipeline
 {
-    public sealed class DelegateMiddleware<TRequest, TNextRequest, TNextResponse, TResponse> : IMiddleware<TRequest, TNextRequest, TNextResponse, TResponse>, IWrapper<MiddlewareDelegate<TRequest, TNextRequest, TNextResponse, TResponse>>
+    public class DelegateMiddleware<TRequest, TNextRequest, TNextResponse, TResponse> : IMiddleware<TRequest, TNextRequest, TNextResponse, TResponse>
     {
-        internal DelegateMiddleware(MiddlewareDelegate<TRequest, TNextRequest, TNextResponse, TResponse> middlewareDelegate)
+        public DelegateMiddleware(MiddlewareDelegate<TRequest, TNextRequest, TNextResponse, TResponse> middlewareDelegate)
         {
             Delegate = middlewareDelegate ?? throw new ArgumentNullException(nameof(middlewareDelegate));
         }
@@ -17,22 +16,6 @@ namespace Craeckersoft.AdvancedPipeline
         public Task<TResponse> InvokeAsync(TRequest request, IInvocationContext invocationContext, IComponentInvoker<TNextRequest, TNextResponse> next)
         {
             return Delegate(request, invocationContext, next);
-        }
-
-        MiddlewareDelegate<TRequest, TNextRequest, TNextResponse, TResponse> IWrapper<MiddlewareDelegate<TRequest, TNextRequest, TNextResponse, TResponse>>.Item
-        {
-            get
-            {
-                return Delegate;
-            }
-        }
-
-        object IWrapper.Item
-        {
-            get
-            {
-                return Delegate;
-            }
         }
     }
 }

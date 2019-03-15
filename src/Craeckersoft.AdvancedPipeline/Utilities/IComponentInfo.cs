@@ -2,7 +2,7 @@ using System;
 
 namespace Craeckersoft.AdvancedPipeline.Utilities
 {
-    public interface IComponentInfo : IWrapper, IEquatable<IComponentInfo>
+    public interface IComponentInfo : IEquatable<IComponentInfo>
     {
         Type RequestType { get; }
 

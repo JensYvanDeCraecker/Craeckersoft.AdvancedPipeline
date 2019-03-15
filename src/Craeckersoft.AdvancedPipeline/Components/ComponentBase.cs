@@ -3,23 +3,17 @@ using System.Threading.Tasks;
 
 namespace Craeckersoft.AdvancedPipeline.Components
 {
-    // ReSharper disable once ClassWithVirtualMembersNeverInherited.Global
-    public class DelegateComponent<TRequest, TNextRequest, TNextResponse, TResponse> : IComponent<TRequest, TNextRequest, TNextResponse, TResponse>
+    public abstract class ComponentBase<TRequest, TNextRequest, TNextResponse, TResponse> : IComponent<TRequest, TNextRequest, TNextResponse, TResponse>
     {
-        public DelegateComponent(ComponentDelegate<TRequest, TNextRequest, TNextResponse, TResponse> componentDelegate)
-        {
-            Delegate = componentDelegate ?? throw new ArgumentNullException(nameof(componentDelegate));
-        }
-
-        public ComponentDelegate<TRequest, TNextRequest, TNextResponse, TResponse> Delegate { get; }
-
         public event EventHandler<ComponentInvokingEventArgs<TRequest, TNextRequest, TNextResponse, TResponse>> Invoking;
 
         public event EventHandler<ComponentInvokedEventArgs<TRequest, TNextRequest, TNextResponse, TResponse>> Invoked;
 
         public IComponentInvoker<TRequest, TResponse> CreateInvoker(IComponentInvoker<TNextRequest, TNextResponse> next)
         {
-            return ComponentInvoker.FromDelegate(Delegate(next) ?? throw new InvalidOperationException());
+            if (next == null)
+                throw new ArgumentNullException(nameof(next));
+            return new Invoker(this, next);
         }
 
         protected virtual void OnInvoking(ComponentInvokingEventArgs<TRequest, TNextRequest, TNextResponse, TResponse> e)
@@ -32,24 +26,24 @@ namespace Craeckersoft.AdvancedPipeline.Components
             Invoked?.Invoke(this, e);
         }
 
+        protected abstract Task<TResponse> InvokeAsync(TRequest request, IInvocationContext invocationContext, IComponentInvoker<TNextRequest, TNextResponse> next);
+
         private class Invoker : IComponentInvoker<TRequest, TResponse>
         {
-            private readonly DelegateComponent<TRequest, TNextRequest, TNextResponse, TResponse> component;
-            private readonly ComponentInvokerDelegate<TRequest, TResponse> current;
+            private readonly ComponentBase<TRequest, TNextRequest, TNextResponse, TResponse> component;
             private readonly IComponentInvoker<TNextRequest, TNextResponse> next;
 
-            public Invoker(DelegateComponent<TRequest, TNextRequest, TNextResponse, TResponse> component, IComponentInvoker<TNextRequest, TNextResponse> next)
+            public Invoker(ComponentBase<TRequest, TNextRequest, TNextResponse, TResponse> component, IComponentInvoker<TNextRequest, TNextResponse> next)
             {
                 this.component = component;
                 this.next = next;
-                current = component.Delegate(this.next) ?? throw new InvalidOperationException();
             }
 
             public async Task<TResponse> InvokeAsync(TRequest request, IInvocationContext invocationContext)
             {
                 ComponentInvokingEventArgs<TRequest, TNextRequest, TNextResponse, TResponse> componentInvokingEventArgs = new ComponentInvokingEventArgs<TRequest, TNextRequest, TNextResponse, TResponse>(request, invocationContext, this, next);
                 component.OnInvoking(componentInvokingEventArgs);
-                TResponse response = await current.Invoke(componentInvokingEventArgs.Request, invocationContext);
+                TResponse response = await component.InvokeAsync(componentInvokingEventArgs.Request, invocationContext, next);
                 ComponentInvokedEventArgs<TRequest, TNextRequest, TNextResponse, TResponse> componentInvokedEventArgs = new ComponentInvokedEventArgs<TRequest, TNextRequest, TNextResponse, TResponse>(response, invocationContext, this, next);
                 component.OnInvoked(componentInvokedEventArgs);
                 return componentInvokedEventArgs.Response;

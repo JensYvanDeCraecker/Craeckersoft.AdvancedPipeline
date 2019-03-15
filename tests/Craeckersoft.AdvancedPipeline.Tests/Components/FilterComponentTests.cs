@@ -5,7 +5,6 @@ using Craeckersoft.AdvancedPipeline.Components;
 using Craeckersoft.AdvancedPipeline.Tests.TestUtilities;
 using Craeckersoft.AdvancedPipeline.Tests.TestUtilities.Assertions;
 using Craeckersoft.AdvancedPipeline.Tests.TestUtilities.Fakes;
-using Craeckersoft.AdvancedPipeline.Utilities;
 using FluentAssertions;
 using Xunit;
 
@@ -72,21 +71,6 @@ namespace Craeckersoft.AdvancedPipeline.Tests.Components
 
             // Assert
             actualFilter.Should().BeSameAs(expectedFilter);
-        }
-
-        [Fact]
-        public void Property_Item_IsSameAsFilter()
-        {
-            // Arrange
-            FilterComponent<object, object, object> component = Component.FromFilter<object, object, object>(new FakeFilter(null));
-
-            // Act
-            IFilter<object, object> actual1 = ((IWrapper<IFilter<object, object>>)component).Item;
-            object actual2 = ((IWrapper)component).Item;
-
-            // Assert
-            actual1.Should().BeSameAs(component.Filter);
-            actual2.Should().BeSameAs(component.Filter);
         }
     }
 }

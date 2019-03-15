@@ -19,7 +19,7 @@ namespace Craeckersoft.AdvancedPipeline.Components
 
         public IComponentInvoker<TRequest, TResponse> CreateInvoker(IComponentInvoker<TNextRequest, TNextResponse> next)
         {
-            return ComponentInvoker.FromDelegate(Delegate(next) ?? throw new InvalidOperationException());
+            return new Invoker(this, next);
         }
 
         protected virtual void OnInvoking(ComponentInvokingEventArgs<TRequest, TNextRequest, TNextResponse, TResponse> e)

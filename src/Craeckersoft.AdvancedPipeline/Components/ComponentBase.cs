@@ -26,7 +26,7 @@ namespace Craeckersoft.AdvancedPipeline.Components
             Invoked?.Invoke(this, e);
         }
 
-        protected abstract Task<TResponse> InvokeAsync(TRequest request, IInvocationContext invocationContext, IComponentInvoker<TNextRequest, TNextResponse> next);
+        protected abstract Task<TResponse> InvokeAsyncImpl(TRequest request, IInvocationContext invocationContext, IComponentInvoker<TNextRequest, TNextResponse> next);
 
         private class Invoker : IComponentInvoker<TRequest, TResponse>
         {
@@ -43,7 +43,7 @@ namespace Craeckersoft.AdvancedPipeline.Components
             {
                 ComponentInvokingEventArgs<TRequest, TNextRequest, TNextResponse, TResponse> componentInvokingEventArgs = new ComponentInvokingEventArgs<TRequest, TNextRequest, TNextResponse, TResponse>(request, invocationContext, this, next);
                 component.OnInvoking(componentInvokingEventArgs);
-                TResponse response = await component.InvokeAsync(componentInvokingEventArgs.Request, invocationContext, next);
+                TResponse response = await component.InvokeAsyncImpl(componentInvokingEventArgs.Request, invocationContext, next);
                 ComponentInvokedEventArgs<TRequest, TNextRequest, TNextResponse, TResponse> componentInvokedEventArgs = new ComponentInvokedEventArgs<TRequest, TNextRequest, TNextResponse, TResponse>(response, invocationContext, this, next);
                 component.OnInvoked(componentInvokedEventArgs);
                 return componentInvokedEventArgs.Response;

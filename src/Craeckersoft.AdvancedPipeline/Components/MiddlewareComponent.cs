@@ -12,7 +12,7 @@ namespace Craeckersoft.AdvancedPipeline.Components
 
         public IMiddleware<TRequest, TNextRequest, TNextResponse, TResponse> Middleware { get; }
 
-        protected sealed override Task<TResponse> InvokeAsync(TRequest request, IInvocationContext invocationContext, IComponentInvoker<TNextRequest, TNextResponse> next)
+        protected sealed override Task<TResponse> InvokeAsyncImpl(TRequest request, IInvocationContext invocationContext, IComponentInvoker<TNextRequest, TNextResponse> next)
         {
             return Middleware.InvokeAsync(request, invocationContext, next);
         }

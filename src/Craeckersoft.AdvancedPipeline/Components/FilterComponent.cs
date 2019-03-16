@@ -12,7 +12,7 @@ namespace Craeckersoft.AdvancedPipeline.Components
 
         public IFilter<TRequest, TFilterResponse> Filter { get; }
 
-        protected sealed override async Task<TResponse> InvokeAsync(TRequest request, IInvocationContext invocationContext, IComponentInvoker<TFilterResponse, TResponse> next)
+        protected sealed override async Task<TResponse> InvokeAsyncImpl(TRequest request, IInvocationContext invocationContext, IComponentInvoker<TFilterResponse, TResponse> next)
         {
             return await next.InvokeAsync(await Filter.InvokeAsync(request, invocationContext), invocationContext);
         }

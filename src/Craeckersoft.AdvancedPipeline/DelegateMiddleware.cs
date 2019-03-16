@@ -4,7 +4,7 @@ using Craeckersoft.AdvancedPipeline.Components;
 
 namespace Craeckersoft.AdvancedPipeline
 {
-    public class DelegateMiddleware<TRequest, TNextRequest, TNextResponse, TResponse> : IMiddleware<TRequest, TNextRequest, TNextResponse, TResponse>
+    public class DelegateMiddleware<TRequest, TNextRequest, TNextResponse, TResponse> : MiddlewareBase<TRequest, TNextRequest, TNextResponse, TResponse>
     {
         public DelegateMiddleware(MiddlewareDelegate<TRequest, TNextRequest, TNextResponse, TResponse> middlewareDelegate)
         {
@@ -13,7 +13,7 @@ namespace Craeckersoft.AdvancedPipeline
 
         public MiddlewareDelegate<TRequest, TNextRequest, TNextResponse, TResponse> Delegate { get; }
 
-        public Task<TResponse> InvokeAsync(TRequest request, IInvocationContext invocationContext, IComponentInvoker<TNextRequest, TNextResponse> next)
+        protected override Task<TResponse> InvokeAsyncImpl(TRequest request, IInvocationContext invocationContext, IComponentInvoker<TNextRequest, TNextResponse> next)
         {
             return Delegate(request, invocationContext, next);
         }

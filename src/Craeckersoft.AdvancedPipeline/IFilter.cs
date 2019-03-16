@@ -1,10 +1,14 @@
+using System;
 using System.Threading.Tasks;
 
 namespace Craeckersoft.AdvancedPipeline
 {
-    // ReSharper disable once TypeParameterCanBeVariant
     public interface IFilter<TRequest, TResponse>
     {
+        event EventHandler<FilterInvokingEventArgs<TRequest>> Invoking;
+
+        event EventHandler<FilterInvokedEventArgs<TResponse>> Invoked;
+
         Task<TResponse> InvokeAsync(TRequest request, IInvocationContext invocationContext);
     }
 }

@@ -4,7 +4,7 @@ using Craeckersoft.AdvancedPipeline.Components;
 
 namespace Craeckersoft.AdvancedPipeline.Tests.TestUtilities.Fakes
 {
-    public class FakeMiddleware : IMiddleware<object, object, object, object>
+    public class FakeMiddleware : MiddlewareBase<object, object, object, object>
 
     {
         private readonly ISet<TestItem> tests;
@@ -14,7 +14,7 @@ namespace Craeckersoft.AdvancedPipeline.Tests.TestUtilities.Fakes
             this.tests = tests;
         }
 
-        public Task<object> InvokeAsync(object request, IInvocationContext invocationContext, IComponentInvoker<object, object> next)
+        protected override Task<object> InvokeAsyncImpl(object request, IInvocationContext invocationContext, IComponentInvoker<object, object> next)
         {
             tests?.Add(TestItem.CurrentInvoker);
             if (request != null)

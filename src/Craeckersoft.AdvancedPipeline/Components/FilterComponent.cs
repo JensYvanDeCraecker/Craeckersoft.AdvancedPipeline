@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace Craeckersoft.AdvancedPipeline.Components
 {
-    public class FilterComponent<TRequest, TFilterResponse, TResponse> : ComponentBase<TRequest, TFilterResponse, TResponse, TResponse>
+    public class FilterComponent<TRequest, TFilterResponse, TResponse> : IComponent<TRequest, TFilterResponse, TResponse, TResponse>
     {
         public FilterComponent(IFilter<TRequest, TFilterResponse> filter)
         {
@@ -12,9 +12,28 @@ namespace Craeckersoft.AdvancedPipeline.Components
 
         public IFilter<TRequest, TFilterResponse> Filter { get; }
 
-        protected sealed override async Task<TResponse> InvokeAsyncImpl(TRequest request, IInvocationContext invocationContext, IComponentInvoker<TFilterResponse, TResponse> next)
+        public IComponentInvoker<TRequest, TResponse> GetInvoker(IComponentInvoker<TFilterResponse, TResponse> next)
         {
-            return await next.InvokeAsync(await Filter.InvokeAsync(request, invocationContext), invocationContext);
+            if (next == null)
+                throw new ArgumentNullException(nameof(next));
+            return new Invoker(this, next);
+        }
+
+        private class Invoker : IComponentInvoker<TRequest, TResponse>
+        {
+            private readonly FilterComponent<TRequest, TFilterResponse, TResponse> component;
+            private readonly IComponentInvoker<TFilterResponse, TResponse> next;
+
+            public Invoker(FilterComponent<TRequest, TFilterResponse, TResponse> component, IComponentInvoker<TFilterResponse, TResponse> next)
+            {
+                this.component = component;
+                this.next = next;
+            }
+
+            public async Task<TResponse> InvokeAsync(TRequest request, IInvocationContext invocationContext)
+            {
+                return await next.InvokeAsync(await component.Filter.InvokeAsync(request, invocationContext), invocationContext);
+            }
         }
     }
 }

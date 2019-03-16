@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace Craeckersoft.AdvancedPipeline.Tests.TestUtilities.Fakes
 {
-    public class FakeFilter : IFilter<object, object>
+    public class FakeFilter : FilterBase<object, object>
     {
         private readonly ISet<TestItem> tests;
 
@@ -12,7 +12,7 @@ namespace Craeckersoft.AdvancedPipeline.Tests.TestUtilities.Fakes
             this.tests = tests;
         }
 
-        public Task<object> InvokeAsync(object request, IInvocationContext invocationContext)
+        protected override Task<object> InvokeAsyncImpl(object request, IInvocationContext invocationContext)
         {
             tests?.Add(TestItem.CurrentInvoker);
             if (request != null)

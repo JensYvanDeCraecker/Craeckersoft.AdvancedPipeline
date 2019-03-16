@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace Craeckersoft.AdvancedPipeline
 {
-    public class DelegateFilter<TRequest, TResponse> : IFilter<TRequest, TResponse>
+    public class DelegateFilter<TRequest, TResponse> : FilterBase<TRequest, TResponse>
     {
         public DelegateFilter(FilterDelegate<TRequest, TResponse> filterDelegate)
         {
@@ -12,7 +12,7 @@ namespace Craeckersoft.AdvancedPipeline
 
         public FilterDelegate<TRequest, TResponse> Delegate { get; }
 
-        public Task<TResponse> InvokeAsync(TRequest request, IInvocationContext invocationContext)
+        protected override Task<TResponse> InvokeAsyncImpl(TRequest request, IInvocationContext invocationContext)
         {
             return Delegate(request, invocationContext);
         }

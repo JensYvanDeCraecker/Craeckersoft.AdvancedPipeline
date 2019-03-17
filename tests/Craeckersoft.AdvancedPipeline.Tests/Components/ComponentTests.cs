@@ -1,6 +1,5 @@
 using System;
 using Craeckersoft.AdvancedPipeline.Components;
-using Craeckersoft.AdvancedPipeline.Tests.TestUtilities.Assertions;
 using Craeckersoft.AdvancedPipeline.Tests.TestUtilities.Fakes;
 using FluentAssertions;
 using Xunit;

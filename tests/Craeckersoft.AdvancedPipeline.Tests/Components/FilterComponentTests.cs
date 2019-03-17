@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Craeckersoft.AdvancedPipeline.Components;
 using Craeckersoft.AdvancedPipeline.Tests.TestUtilities;
-using Craeckersoft.AdvancedPipeline.Tests.TestUtilities.Assertions;
 using Craeckersoft.AdvancedPipeline.Tests.TestUtilities.Fakes;
 using FluentAssertions;
 using Xunit;

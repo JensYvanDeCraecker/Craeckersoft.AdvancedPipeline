@@ -2,6 +2,6 @@
 {
     public interface IComponent<TRequest, TNextRequest, TNextResponse, TResponse>
     {
-        IComponentInvoker<TRequest, TResponse> GetInvoker(IComponentInvoker<TNextRequest, TNextResponse> next);
+        IInvoker<TRequest, TResponse> GetInvoker(IInvoker<TNextRequest, TNextResponse> next);
     }
 }

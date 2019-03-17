@@ -1,12 +1,11 @@
-using Craeckersoft.AdvancedPipeline.Components;
 using FluentAssertions;
 using FluentAssertions.Primitives;
 
 namespace Craeckersoft.AdvancedPipeline.Tests.TestUtilities.Assertions
 {
-    public class ComponentInvokerAssertions<TRequest, TResponse> : ReferenceTypeAssertions<IComponentInvoker<TRequest, TResponse>, ComponentInvokerAssertions<TRequest, TResponse>>
+    public class ComponentInvokerAssertions<TRequest, TResponse> : ReferenceTypeAssertions<IInvoker<TRequest, TResponse>, ComponentInvokerAssertions<TRequest, TResponse>>
     {
-        public ComponentInvokerAssertions(IComponentInvoker<TRequest, TResponse> componentInvoker)
+        public ComponentInvokerAssertions(IInvoker<TRequest, TResponse> componentInvoker)
         {
             Subject = componentInvoker;
         }
@@ -14,9 +13,9 @@ namespace Craeckersoft.AdvancedPipeline.Tests.TestUtilities.Assertions
         protected override string Identifier { get; } = "componentInvoker";
 
         [CustomAssertion]
-        public AndWhichConstraint<ComponentInvokerAssertions<TRequest, TResponse>, DelegateComponentInvoker<TRequest, TResponse>> BeDelegateComponentInvoker(string because = "", params object[] becauseArgs)
+        public AndWhichConstraint<ComponentInvokerAssertions<TRequest, TResponse>, DelegateInvoker<TRequest, TResponse>> BeDelegateComponentInvoker(string because = "", params object[] becauseArgs)
         {
-            return BeOfType<DelegateComponentInvoker<TRequest, TResponse>>(because, becauseArgs);
+            return BeOfType<DelegateInvoker<TRequest, TResponse>>(because, becauseArgs);
         }
     }
 }

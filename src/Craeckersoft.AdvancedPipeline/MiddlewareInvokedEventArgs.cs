@@ -1,11 +1,10 @@
 using System;
-using Craeckersoft.AdvancedPipeline.Components;
 
 namespace Craeckersoft.AdvancedPipeline
 {
     public class MiddlewareInvokedEventArgs<TNextRequest, TNextResponse, TResponse> : EventArgs
     {
-        public MiddlewareInvokedEventArgs(TResponse response, IInvocationContext invocationContext, IComponentInvoker<TNextRequest, TNextResponse> next)
+        public MiddlewareInvokedEventArgs(TResponse response, IInvocationContext invocationContext, IInvoker<TNextRequest, TNextResponse> next)
         {
             Response = response;
             InvocationContext = invocationContext ?? throw new ArgumentNullException(nameof(invocationContext));
@@ -16,6 +15,6 @@ namespace Craeckersoft.AdvancedPipeline
 
         public IInvocationContext InvocationContext { get; }
 
-        public IComponentInvoker<TNextRequest, TNextResponse> Next { get; }
+        public IInvoker<TNextRequest, TNextResponse> Next { get; }
     }
 }

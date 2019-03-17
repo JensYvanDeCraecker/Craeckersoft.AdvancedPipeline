@@ -1,6 +1,5 @@
 using System;
 using System.Threading.Tasks;
-using Craeckersoft.AdvancedPipeline.Components;
 
 namespace Craeckersoft.AdvancedPipeline
 {
@@ -13,7 +12,7 @@ namespace Craeckersoft.AdvancedPipeline
 
         public MiddlewareDelegate<TRequest, TNextRequest, TNextResponse, TResponse> Delegate { get; }
 
-        protected override Task<TResponse> InvokeAsyncImpl(TRequest request, IInvocationContext invocationContext, IComponentInvoker<TNextRequest, TNextResponse> next)
+        protected override Task<TResponse> InvokeAsyncImpl(TRequest request, IInvocationContext invocationContext, IInvoker<TNextRequest, TNextResponse> next)
         {
             return Delegate(request, invocationContext, next);
         }

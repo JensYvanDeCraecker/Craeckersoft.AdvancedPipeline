@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Craeckersoft.AdvancedPipeline.Components;
 
 namespace Craeckersoft.AdvancedPipeline.Tests.TestUtilities.Fakes
 {
@@ -14,7 +13,7 @@ namespace Craeckersoft.AdvancedPipeline.Tests.TestUtilities.Fakes
             this.tests = tests;
         }
 
-        protected override Task<object> InvokeAsyncImpl(object request, IInvocationContext invocationContext, IComponentInvoker<object, object> next)
+        protected override Task<object> InvokeAsyncImpl(object request, IInvocationContext invocationContext, IInvoker<object, object> next)
         {
             tests?.Add(TestItem.CurrentInvoker);
             if (request != null)

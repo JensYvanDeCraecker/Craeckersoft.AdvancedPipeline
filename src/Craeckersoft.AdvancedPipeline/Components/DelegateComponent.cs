@@ -13,19 +13,19 @@ namespace Craeckersoft.AdvancedPipeline.Components
 
         public ComponentDelegate<TRequest, TNextRequest, TNextResponse, TResponse> Delegate { get; }
 
-        public IComponentInvoker<TRequest, TResponse> GetInvoker(IComponentInvoker<TNextRequest, TNextResponse> next)
+        public IInvoker<TRequest, TResponse> GetInvoker(IInvoker<TNextRequest, TNextResponse> next)
         {
             if (next == null)
                 throw new ArgumentNullException(nameof(next));
             return new Invoker(this, next);
         }
 
-        private class Invoker : IComponentInvoker<TRequest, TResponse>
+        private class Invoker : IInvoker<TRequest, TResponse>
         {
             private readonly DelegateComponent<TRequest, TNextRequest, TNextResponse, TResponse> component;
-            private readonly ComponentInvokerDelegate<TRequest, TResponse> current;
+            private readonly InvokerDelegate<TRequest, TResponse> current;
 
-            public Invoker(DelegateComponent<TRequest, TNextRequest, TNextResponse, TResponse> component, IComponentInvoker<TNextRequest, TNextResponse> next)
+            public Invoker(DelegateComponent<TRequest, TNextRequest, TNextResponse, TResponse> component, IInvoker<TNextRequest, TNextResponse> next)
             {
                 this.component = component;
                 current = component.Delegate(next) ?? throw new InvalidOperationException();

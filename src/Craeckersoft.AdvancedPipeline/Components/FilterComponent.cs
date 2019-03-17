@@ -12,19 +12,19 @@ namespace Craeckersoft.AdvancedPipeline.Components
 
         public IFilter<TRequest, TFilterResponse> Filter { get; }
 
-        public IComponentInvoker<TRequest, TResponse> GetInvoker(IComponentInvoker<TFilterResponse, TResponse> next)
+        public IInvoker<TRequest, TResponse> GetInvoker(IInvoker<TFilterResponse, TResponse> next)
         {
             if (next == null)
                 throw new ArgumentNullException(nameof(next));
             return new Invoker(this, next);
         }
 
-        private class Invoker : IComponentInvoker<TRequest, TResponse>
+        private class Invoker : IInvoker<TRequest, TResponse>
         {
             private readonly FilterComponent<TRequest, TFilterResponse, TResponse> component;
-            private readonly IComponentInvoker<TFilterResponse, TResponse> next;
+            private readonly IInvoker<TFilterResponse, TResponse> next;
 
-            public Invoker(FilterComponent<TRequest, TFilterResponse, TResponse> component, IComponentInvoker<TFilterResponse, TResponse> next)
+            public Invoker(FilterComponent<TRequest, TFilterResponse, TResponse> component, IInvoker<TFilterResponse, TResponse> next)
             {
                 this.component = component;
                 this.next = next;

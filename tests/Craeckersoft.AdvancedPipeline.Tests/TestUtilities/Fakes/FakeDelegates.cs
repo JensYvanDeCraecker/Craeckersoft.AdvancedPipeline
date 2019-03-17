@@ -51,7 +51,7 @@ namespace Craeckersoft.AdvancedPipeline.Tests.TestUtilities.Fakes
             };
         }
 
-        public static ComponentInvokerDelegate<object, object> ComponentInvoker(ISet<TestItem> tests)
+        public static InvokerDelegate<object, object> ComponentInvoker(ISet<TestItem> tests)
         {
             return (request, invocationContext) =>
             {

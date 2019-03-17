@@ -1,16 +1,16 @@
 using System;
 using System.Threading.Tasks;
 
-namespace Craeckersoft.AdvancedPipeline.Components
+namespace Craeckersoft.AdvancedPipeline
 {
-    public class DelegateComponentInvoker<TRequest, TResponse> : IComponentInvoker<TRequest, TResponse>
+    public class DelegateInvoker<TRequest, TResponse> : IInvoker<TRequest, TResponse>
     {
-        public DelegateComponentInvoker(ComponentInvokerDelegate<TRequest, TResponse> componentInvokerDelegate)
+        public DelegateInvoker(InvokerDelegate<TRequest, TResponse> componentInvokerDelegate)
         {
             Delegate = componentInvokerDelegate ?? throw new ArgumentNullException(nameof(componentInvokerDelegate));
         }
 
-        public ComponentInvokerDelegate<TRequest, TResponse> Delegate { get; }
+        public InvokerDelegate<TRequest, TResponse> Delegate { get; }
 
         public Task<TResponse> InvokeAsync(TRequest request, IInvocationContext invocationContext)
         {

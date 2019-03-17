@@ -1,22 +1,21 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Craeckersoft.AdvancedPipeline.Components;
 using Craeckersoft.AdvancedPipeline.Tests.TestUtilities;
 using Craeckersoft.AdvancedPipeline.Tests.TestUtilities.Fakes;
 using FluentAssertions;
 using Xunit;
 
-namespace Craeckersoft.AdvancedPipeline.Tests.Components
+namespace Craeckersoft.AdvancedPipeline.Tests
 {
-    public class DelegateComponentInvokerTests
+    public class DelegateInvokerTests
     {
         [Fact]
-        public async Task Method_InvokeAsync_UsesComponentInvokerDelegate()
+        public async Task Method_InvokeAsync_UsesInvokerDelegate()
         {
             // Arrange
             object expected = new object();
             ISet<TestItem> tests = new HashSet<TestItem>();
-            DelegateComponentInvoker<object, object> componentInvoker = ComponentInvoker.FromDelegate(FakeDelegates.ComponentInvoker(tests));
+            DelegateInvoker<object, object> componentInvoker = Invoker.FromDelegate(FakeDelegates.ComponentInvoker(tests));
 
             // Act
             object actual = await componentInvoker.InvokeAsync(expected, new FakeInvocationContext());
@@ -28,14 +27,14 @@ namespace Craeckersoft.AdvancedPipeline.Tests.Components
         }
 
         [Fact]
-        public void Property_Delegate_ReturnsComponentInvokerDelegateFromConstructor()
+        public void Property_Delegate_ReturnsInvokerDelegateFromConstructor()
         {
             // Arrange
-            ComponentInvokerDelegate<object, object> expectedComponentInvokerDelegate = FakeDelegates.ComponentInvoker(null);
-            DelegateComponentInvoker<object, object> componentInvoker = ComponentInvoker.FromDelegate(expectedComponentInvokerDelegate);
+            InvokerDelegate<object, object> expectedComponentInvokerDelegate = FakeDelegates.ComponentInvoker(null);
+            DelegateInvoker<object, object> componentInvoker = Invoker.FromDelegate(expectedComponentInvokerDelegate);
 
             // Act
-            ComponentInvokerDelegate<object, object> actualComponentInvokerDelegate = componentInvoker.Delegate;
+            InvokerDelegate<object, object> actualComponentInvokerDelegate = componentInvoker.Delegate;
 
             // Assert
             actualComponentInvokerDelegate.Should().BeSameAs(expectedComponentInvokerDelegate);

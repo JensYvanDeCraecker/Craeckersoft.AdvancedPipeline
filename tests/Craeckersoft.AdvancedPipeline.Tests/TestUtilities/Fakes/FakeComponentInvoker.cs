@@ -1,10 +1,9 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Craeckersoft.AdvancedPipeline.Components;
 
 namespace Craeckersoft.AdvancedPipeline.Tests.TestUtilities.Fakes
 {
-    public class FakeComponentInvoker : IComponentInvoker<object, object>
+    public class FakeComponentInvoker : IInvoker<object, object>
     {
         private readonly ISet<TestItem> tests;
 

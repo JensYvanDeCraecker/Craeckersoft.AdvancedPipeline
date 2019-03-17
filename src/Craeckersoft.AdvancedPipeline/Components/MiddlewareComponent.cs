@@ -12,19 +12,19 @@ namespace Craeckersoft.AdvancedPipeline.Components
 
         public IMiddleware<TRequest, TNextRequest, TNextResponse, TResponse> Middleware { get; }
 
-        public IComponentInvoker<TRequest, TResponse> GetInvoker(IComponentInvoker<TNextRequest, TNextResponse> next)
+        public IInvoker<TRequest, TResponse> GetInvoker(IInvoker<TNextRequest, TNextResponse> next)
         {
             if (next == null)
                 throw new ArgumentNullException(nameof(next));
             return new Invoker(this, next);
         }
 
-        private class Invoker : IComponentInvoker<TRequest, TResponse>
+        private class Invoker : IInvoker<TRequest, TResponse>
         {
             private readonly MiddlewareComponent<TRequest, TNextRequest, TNextResponse, TResponse> component;
-            private readonly IComponentInvoker<TNextRequest, TNextResponse> next;
+            private readonly IInvoker<TNextRequest, TNextResponse> next;
 
-            public Invoker(MiddlewareComponent<TRequest, TNextRequest, TNextResponse, TResponse> component, IComponentInvoker<TNextRequest, TNextResponse> next)
+            public Invoker(MiddlewareComponent<TRequest, TNextRequest, TNextResponse, TResponse> component, IInvoker<TNextRequest, TNextResponse> next)
             {
                 this.component = component;
                 this.next = next;

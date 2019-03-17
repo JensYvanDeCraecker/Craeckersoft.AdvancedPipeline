@@ -1,6 +1,5 @@
 using System;
 using System.Threading.Tasks;
-using Craeckersoft.AdvancedPipeline.Components;
 
 namespace Craeckersoft.AdvancedPipeline
 {
@@ -10,6 +9,6 @@ namespace Craeckersoft.AdvancedPipeline
 
         event EventHandler<MiddlewareInvokedEventArgs<TNextRequest, TNextResponse, TResponse>> Invoked;
 
-        Task<TResponse> InvokeAsync(TRequest request, IInvocationContext invocationContext, IComponentInvoker<TNextRequest, TNextResponse> next);
+        Task<TResponse> InvokeAsync(TRequest request, IInvocationContext invocationContext, IInvoker<TNextRequest, TNextResponse> next);
     }
 }

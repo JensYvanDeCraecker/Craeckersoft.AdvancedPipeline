@@ -1,22 +1,21 @@
 using System;
-using Craeckersoft.AdvancedPipeline.Components;
 using Craeckersoft.AdvancedPipeline.Tests.TestUtilities.Assertions;
 using Craeckersoft.AdvancedPipeline.Tests.TestUtilities.Fakes;
 using FluentAssertions;
 using Xunit;
 
-namespace Craeckersoft.AdvancedPipeline.Tests.Components
+namespace Craeckersoft.AdvancedPipeline.Tests
 {
-    public class ComponentInvokerTests
+    public class InvokerTests
     {
         [Fact]
-        public void Method_FromComponent_ReturnsDelegateComponentInvoker()
+        public void Method_FromComponent_ReturnsDelegateInvoker()
         {
             // Arrange
-            ComponentInvokerDelegate<object, object> expectedComponentInvokerDelegateDelegate = FakeDelegates.ComponentInvoker(null);
+            InvokerDelegate<object, object> expectedComponentInvokerDelegateDelegate = FakeDelegates.ComponentInvoker(null);
 
             // Act
-            DelegateComponentInvoker<object, object> componentInvoker = ComponentInvoker.FromDelegate(expectedComponentInvokerDelegateDelegate);
+            DelegateInvoker<object, object> componentInvoker = Invoker.FromDelegate(expectedComponentInvokerDelegateDelegate);
 
             // Assert
             componentInvoker.Should().NotBeNull();
@@ -26,7 +25,7 @@ namespace Craeckersoft.AdvancedPipeline.Tests.Components
         public void Method_FromDelegate_ArgumentIsNull_ThrowsArgumentNullException()
         {
             // Arrange
-            Action act = () => ComponentInvoker.FromDelegate((ComponentInvokerDelegate<object, object>)null);
+            Action act = () => Invoker.FromDelegate((InvokerDelegate<object, object>)null);
 
             // Act - Assert
             act.Should().Throw<ArgumentNullException>().Which.ParamName.Should().Be("componentInvokerDelegate");

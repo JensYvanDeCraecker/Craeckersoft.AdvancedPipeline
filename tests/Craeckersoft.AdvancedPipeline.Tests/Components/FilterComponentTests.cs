@@ -20,7 +20,7 @@ namespace Craeckersoft.AdvancedPipeline.Tests.Components
                 // Arrange
                 object expected = new object();
                 ISet<TestItem> tests = new HashSet<TestItem>();
-                IComponentInvoker<object, object> componentInvoker = Component.FromFilter<object, object, object>(new FakeFilter(tests)).GetInvoker(new FakeComponentInvoker(tests));
+                IInvoker<object, object> componentInvoker = Component.FromFilter<object, object, object>(new FakeFilter(tests)).GetInvoker(new FakeComponentInvoker(tests));
 
                 // Act
                 object actual = await componentInvoker.InvokeAsync(expected, new FakeInvocationContext());
@@ -53,7 +53,7 @@ namespace Craeckersoft.AdvancedPipeline.Tests.Components
             FilterComponent<object, object, object> component = Component.FromFilter<object, object, object>(new FakeFilter(null));
 
             // Act
-            IComponentInvoker<object, object> invoker = component.GetInvoker(new FakeComponentInvoker(null));
+            IInvoker<object, object> invoker = component.GetInvoker(new FakeComponentInvoker(null));
 
             // Assert
             invoker.Should().NotBeNull();
